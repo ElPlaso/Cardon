@@ -2,15 +2,12 @@
 
 A new Flutter project.
 
-## Getting Started
+## QRCards
 
-This project is a starting point for a Flutter application.
+© Oliver Hermens, Garnett Norton-Brown, Nicholas Woolf-Ben-Avraham, and Plaso Kusay.
 
-A few resources to get you started if this is your first Flutter project:
+## CardonQR
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+This project aims to improve the UI of its predecessor. 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
