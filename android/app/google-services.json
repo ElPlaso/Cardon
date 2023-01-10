@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120101016042",
+    "project_id": "cardon-e",
+    "storage_bucket": "cardon-e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120101016042:android:afeebab8ccac567888e293",
+        "android_client_info": {
+          "package_name": "com.example.cardonapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120101016042-u8mvu962j4jt147k4jm70845ja9rti3r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9jE1RYNgtq6SIzUq5hoLc_oQnMLRfqfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120101016042-u8mvu962j4jt147k4jm70845ja9rti3r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
