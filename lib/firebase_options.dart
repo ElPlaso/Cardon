@@ -49,7 +49,7 @@ class DefaultFirebaseOptions {
     apiKey: dotenv.env['APIKEY']!,
     appId: dotenv.env['APPID']!,
     messagingSenderId: dotenv.env['MSGSENDERID']!,
-    projectId: dotenv.env['MSGSENDERID']!,
+    projectId: dotenv.env['PROJECT']!,
     authDomain: dotenv.env['AUTHDOMAIN']!,
     storageBucket: dotenv.env['STGBUCKET']!,
   );
@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
     apiKey: dotenv.env['APIKEY']!,
     appId: dotenv.env['APPID']!,
     messagingSenderId: dotenv.env['MSGSENDERID']!,
-    projectId: dotenv.env['MSGSENDERID']!,
+    projectId: dotenv.env['PROJECTID']!,
     storageBucket: dotenv.env['STGBUCKET']!,
   );
 
@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     apiKey: dotenv.env['APIKEY']!,
     appId: dotenv.env['APPID']!,
     messagingSenderId: dotenv.env['MSGSENDERID']!,
-    projectId: dotenv.env['MSGSENDERID']!,
+    projectId: dotenv.env['PROJECTID']!,
     storageBucket: dotenv.env['STGBUCKET']!,
     iosClientId: dotenv.env['IOSCLIENTID']!,
     iosBundleId: dotenv.env['IOSBUNDLEID']!,
@@ -76,7 +76,7 @@ class DefaultFirebaseOptions {
     apiKey: dotenv.env['APIKEY']!,
     appId: dotenv.env['APPID']!,
     messagingSenderId: dotenv.env['MSGSENDERID']!,
-    projectId: dotenv.env['MSGSENDERID']!,
+    projectId: dotenv.env['PROJECTID']!,
     storageBucket: dotenv.env['STGBUCKET']!,
     iosClientId: dotenv.env['IOSCLIENTID']!,
     iosBundleId: dotenv.env['IOSBUNDLEID']!,
