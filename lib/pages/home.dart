@@ -1,3 +1,4 @@
+import 'package:cardonapp/pages/add_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -39,14 +40,28 @@ class HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 50),
-                  child: Text(
-                    MyApp.title,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          MyApp.title,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        IconButton(
+                            onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddCard()),
+                                ),
+                            icon: Icon(Icons.library_add,
+                                size: 30,
+                                color: Theme.of(context).colorScheme.primary))
+                      ]),
                 ),
                 context.watch<Cards>().isEmpty(true)
                     ? const HomeBanner(
@@ -74,11 +89,11 @@ class HomeState extends State<Home> {
                 5, //notche margin between floating button and bottom appbar
             child: Row(
               //children inside bottom appbar
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
                   icon: const Icon(
-                    Icons.library_add,
+                    Icons.menu,
                     color: Colors.white,
                   ),
                   onPressed: () => Navigator.push(
