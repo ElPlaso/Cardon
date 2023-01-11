@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 // * Icon button that aligns icon to the right
 // * Requires button text and icon
 
-class LogoButton extends StatelessWidget {
+class MenuButton extends StatelessWidget {
   final String text;
+  final int count;
   final VoidCallback onClicked;
   final Icon icon;
 
-  const LogoButton({
+  const MenuButton({
     required this.text,
     required this.onClicked,
     required this.icon,
+    required this.count,
     Key? key,
   }) : super(key: key);
 
@@ -33,13 +35,20 @@ class LogoButton extends StatelessWidget {
             onPressed: onClicked,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.blue,
-                ),
-              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      text,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(count.toString()),
+                    const Icon(Icons.chevron_right),
+                  ]),
             ),
             icon: icon,
           ),

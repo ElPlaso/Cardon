@@ -54,7 +54,7 @@ class Cards with ChangeNotifier {
   void clear(bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     list.clear();
-    notifyListeners();
+    // notifyListeners();
   }
 
   // Check if the personal or collected list are empty.

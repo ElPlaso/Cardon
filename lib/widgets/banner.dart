@@ -11,7 +11,7 @@ class HomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.30,
+      height: 225,
       width: MediaQuery.of(context).size.width,
       child: Container(
         margin: const EdgeInsets.all(10.0),
@@ -32,7 +32,7 @@ class HomeBanner extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Welcome to QRCards!",
+            const Text("Welcome to Cardon!",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22.0,
