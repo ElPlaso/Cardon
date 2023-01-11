@@ -31,80 +31,89 @@ class HomeState extends State<Home> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
-  Widget build(BuildContext context) => Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        title: const Text(MyApp.title),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            context.watch<Cards>().isEmpty(true)
-                ? const HomeBanner(subheading: 'Add a card to get started :)')
-                : Carousel(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        // Floating action button on Scaffold
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Scan()),
-        ),
-        child:
-            const Icon(Icons.crop_free_outlined, size: 35), //icon inside button
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        //bottom navigation bar on scaffold
-        color: Colors.blue,
-        shape: const CircularNotchedRectangle(), //shape of notch
-        notchMargin:
-            5, //notche margin between floating button and bottom appbar
-        child: Row(
-          //children inside bottom appbar
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.library_add,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const UserCards()),
-              ),
-            ),
-            IconButton(
-                icon: const Icon(
-                  Icons.wallet,
-                  color: Colors.white,
+  Widget build(BuildContext context) => SafeArea(
+      child: Scaffold(
+          key: scaffoldKey,
+          body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, top: 50),
+                  child: Text(
+                    MyApp.title,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-                onPressed: () => {
-                      if (context.read<Cards>().isEmpty(false))
-                        {
-                          Fluttertoast.showToast(
-                              msg:
-                                  "No saved cards. Scan a card to add it to your list!",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.blue,
-                              textColor: Colors.white,
-                              fontSize: 16.0)
-                        }
-                      else
-                        {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Wallet()),
-                          )
-                        }
-                    }),
-          ],
-        ),
-      ));
+                context.watch<Cards>().isEmpty(true)
+                    ? const HomeBanner(
+                        subheading: 'Add a card to get started :)')
+                    : const Carousel(),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            // Floating action button on Scaffold
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Scan()),
+            ),
+            child: const Icon(Icons.crop_free_outlined,
+                size: 35), //icon inside button
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomAppBar(
+            //bottom navigation bar on scaffold
+            color: Colors.blue,
+            shape: const CircularNotchedRectangle(), //shape of notch
+            notchMargin:
+                5, //notche margin between floating button and bottom appbar
+            child: Row(
+              //children inside bottom appbar
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.library_add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UserCards()),
+                  ),
+                ),
+                IconButton(
+                    icon: const Icon(
+                      Icons.wallet,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => {
+                          if (context.read<Cards>().isEmpty(false))
+                            {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "No saved cards. Scan a card to add it to your list!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.blue,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0)
+                            }
+                          else
+                            {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Wallet()),
+                              )
+                            }
+                        }),
+              ],
+            ),
+          )));
 }

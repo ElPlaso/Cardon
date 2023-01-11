@@ -34,7 +34,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static const String title = 'QRCards';
+  static const String title = 'CardonQR.';
   const MyApp({super.key});
 
   @override
