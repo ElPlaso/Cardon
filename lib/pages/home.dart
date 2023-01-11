@@ -1,5 +1,5 @@
 import 'package:cardonapp/pages/add_card.dart';
-import 'package:cardonapp/widgets/logo_button.dart';
+import 'package:cardonapp/widgets/menu_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +34,7 @@ class HomeState extends State<Home> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) => SafeArea(
-      child: Scaffold(
+        child: Scaffold(
           key: scaffoldKey,
           body: CustomScrollView(
             physics: const BouncingScrollPhysics(
@@ -78,54 +78,58 @@ class HomeState extends State<Home> {
                             subheading: 'Add a card to get started')
                         : const Carousel(),
                   ])),
-              SliverList(
-                delegate: SliverChildListDelegate.fixed([
-                  SizedBox(
-                    height: 250,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25),
-                      child: Card(
-                        child: Column(children: [
-                          LogoButton(
-                            icon: const Icon(Icons.person),
-                            onClicked: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserCards()),
-                            ),
-                            text: 'Your cards',
-                          ),
-                          LogoButton(
-                            icon: const Icon(Icons.wallet),
-                            onClicked: () => {
-                              if (context.read<Cards>().isEmpty(false))
-                                {
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "No saved cards. Scan a card to add it to your list!",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.blue,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0)
-                                }
-                              else
-                                {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Wallet()),
-                                  )
-                                }
-                            },
-                            text: 'Wallet',
-                          ),
-                        ]),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 250,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
+                      elevation: 5,
+                      child: Column(children: [
+                        MenuButton(
+                          count: context.read<Cards>().personalcards.length,
+                          icon: const Icon(Icons.person),
+                          onClicked: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UserCards()),
+                          ),
+                          text: 'Your cards',
+                        ),
+                        MenuButton(
+                          count: context.read<Cards>().collectedcards.length,
+                          icon: const Icon(Icons.wallet),
+                          onClicked: () => {
+                            if (context.read<Cards>().isEmpty(false))
+                              {
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "No saved cards. Scan a card to add it to your list!",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.blue,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0)
+                              }
+                            else
+                              {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Wallet()),
+                                )
+                              }
+                          },
+                          text: 'Wallet',
+                        ),
+                      ]),
                     ),
                   ),
-                ]),
+                ),
               ),
             ],
           ),
@@ -139,24 +143,15 @@ class HomeState extends State<Home> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
+          bottomNavigationBar: const BottomAppBar(
             color: Colors.blue,
-            shape: const CircularNotchedRectangle(), // Shape of notch.
+            shape: CircularNotchedRectangle(), // Shape of notch.
             notchMargin:
                 5, // Notched margin between floating button and bottom app bar.
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.info_outline, color: Colors.white))
-              ],
+            child: SizedBox(
+              height: 50,
             ),
-          )));
+          ),
+        ),
+      );
 }
