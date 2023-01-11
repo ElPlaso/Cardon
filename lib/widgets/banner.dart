@@ -32,7 +32,7 @@ class HomeBanner extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Welcome to QRCards!",
+            const Text("Welcome to Cardon!",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22.0,

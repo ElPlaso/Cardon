@@ -64,8 +64,7 @@ class HomeState extends State<Home> {
                       ]),
                 ),
                 context.watch<Cards>().isEmpty(true)
-                    ? const HomeBanner(
-                        subheading: 'Add a card to get started :)')
+                    ? const HomeBanner(subheading: 'Add a card to get started')
                     : const Carousel(),
               ],
             ),
