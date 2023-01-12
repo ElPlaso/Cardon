@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class CardForm extends StatefulWidget {
 
   @override
   CardFormState createState() {
-    return CardFormState(card: card);
+    return CardFormState();
   }
 }
 
@@ -28,9 +29,13 @@ class CardFormState extends State<CardForm> {
 
   final ScrollController controller = ScrollController();
 
-  final BusinessCard card;
+  late BusinessCard card;
 
-  CardFormState({required this.card});
+  @override
+  void initState() {
+    super.initState();
+    card = widget.card;
+  }
 
   /// * The card is constructed from named text fields below.
   /// * The corresponding provider fields are updated with every change to the text
@@ -44,10 +49,15 @@ class CardFormState extends State<CardForm> {
         key: _formKey,
         child: SizedBox(
           height: 350,
-          child: Scrollbar(
+          child: CupertinoScrollbar(
             controller: controller,
             thumbVisibility: true,
+            thickness: 5,
+            radius: const Radius.circular(20),
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               controller: controller,
               child: Container(
                 padding: const EdgeInsets.only(
