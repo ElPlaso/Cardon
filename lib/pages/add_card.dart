@@ -7,7 +7,6 @@ import 'package:cardonapp/data/business_card.dart';
 import 'package:cardonapp/providers/cardcreator_provider.dart';
 import 'package:cardonapp/providers/query_provider.dart';
 import '../widgets/card_view.dart';
-import '../widgets/theme_toggle.dart';
 import '../widgets/card_form.dart';
 
 // * Page that allows user to preview and create cards
@@ -40,7 +39,7 @@ class AddCard extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.primary,
             actions: [
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8, right: 15),
+                padding: const EdgeInsets.only(top: 8, bottom: 8, right: 20),
                 child: TextButton(
                   onPressed: () => {_uploadCard(context)},
                   child: const Text("Done", style: TextStyle(fontSize: 20)),
@@ -70,8 +69,6 @@ class AddCard extends StatelessWidget {
                       ]),
                 ),
                 CardForm(card: BusinessCard(id: '', name: '', theme: 'nimbus')),
-                const Padding(
-                    padding: EdgeInsets.all(25), child: ThemeToggle()),
               ],
             ),
           ),
