@@ -18,6 +18,11 @@ class ThemeToggle extends StatefulWidget {
 
 class ThemeToggleState extends State<ThemeToggle> {
   final isSelected = <bool>[false, false, false];
+  final colors = [
+    const Color.fromARGB(255, 29, 29, 29),
+    const Color.fromARGB(255, 240, 234, 214),
+    const Color.fromARGB(255, 255, 255, 255)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,53 +45,52 @@ class ThemeToggleState extends State<ThemeToggle> {
         }
     }
 
-    return ToggleButtons(
-      color: Colors.black.withOpacity(0.60),
-      selectedColor: Colors.blue,
-      selectedBorderColor: Colors.blue,
-      fillColor: Colors.blue.withOpacity(0.08),
-      splashColor: Colors.blue.withOpacity(0.12),
-      hoverColor: Colors.blue.withOpacity(0.04),
-      borderRadius: BorderRadius.circular(4.0),
-      isSelected: isSelected,
-      highlightColor: Colors.transparent,
-      onPressed: (int index) {
-        setState(() {
-          for (int i = 0; i < isSelected.length; i++) {
-            isSelected[i] = i == index;
-          }
-        });
-        switch (index) {
-          case 1:
-            {
-              context.read<CardCreator>().setTheme('eggshell');
-            }
-            break;
-          case 2:
-            {
-              context.read<CardCreator>().setTheme('off-white');
-            }
-            break;
-          default:
-            {
-              context.read<CardCreator>().setTheme('nimbus');
-            }
-        }
-      },
-      children: const [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('NIMBUS'),
+    return Ink(
+      width: 300,
+      height: 50,
+      child: GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
+        primary: true,
+        crossAxisCount: 3, //set the number of buttons in a row
+        crossAxisSpacing: 8, //set the spacing between the buttons
+        childAspectRatio: 2, //set the width-to-height ratio of the button,
+        children: List.generate(
+          isSelected.length,
+          (index) {
+            return ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  for (int i = 0; i < isSelected.length; i++) {
+                    isSelected[i] = i == index;
+                  }
+                });
+                switch (index) {
+                  case 1:
+                    {
+                      context.read<CardCreator>().setTheme('eggshell');
+                    }
+                    break;
+                  case 2:
+                    {
+                      context.read<CardCreator>().setTheme('off-white');
+                    }
+                    break;
+                  default:
+                    {
+                      context.read<CardCreator>().setTheme('nimbus');
+                    }
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                backgroundColor: colors[index],
+                elevation: isSelected[index] ? 15 : 1,
+              ),
+              child: null,
+            );
+          },
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('EGGSHELL'),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text('OFF-WHITE'),
-        ),
-      ],
+      ),
     );
   }
 }

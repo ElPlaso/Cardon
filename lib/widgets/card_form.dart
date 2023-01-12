@@ -48,7 +48,6 @@ class CardFormState extends State<CardForm> {
       child: Form(
         key: _formKey,
         child: SizedBox(
-          height: 350,
           child: CupertinoScrollbar(
             controller: controller,
             thumbVisibility: true,
