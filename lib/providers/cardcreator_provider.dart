@@ -1,3 +1,4 @@
+import 'package:cardonapp/data/business_card.dart';
 import 'package:flutter/material.dart';
 
 class CardCreator with ChangeNotifier {
@@ -63,4 +64,17 @@ class CardCreator with ChangeNotifier {
     _companyPhone = temp;
     notifyListeners();
   }
+
+  BusinessCard getBusinessCard(id) => BusinessCard(
+        id: id,
+        theme: theme,
+        name: name,
+        position: postion,
+        email: email,
+        cellphone: cellphone,
+        website: website,
+        company: company,
+        companyaddress: companyAddress,
+        companyphone: companyPhone,
+      );
 }

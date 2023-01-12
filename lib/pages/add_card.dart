@@ -36,33 +36,7 @@ class AddCard extends StatelessWidget {
                   /// * used as a style choice to display the icon to the right.
                   LogoButton(
                     text: 'Preview',
-                    onClicked: () {
-                      showModalBottomSheet(
-                          // * Displays preview of business card
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          builder: (context) => CardView(
-                                  // * Create the mock BusinessCard from the providers
-                                  card: BusinessCard(
-                                id: "preview",
-                                theme: context.read<CardCreator>().theme,
-                                name: context.read<CardCreator>().name,
-                                position: context.read<CardCreator>().postion,
-                                email: context.read<CardCreator>().email,
-                                cellphone:
-                                    context.read<CardCreator>().cellphone,
-                                website: context.read<CardCreator>().website,
-                                company: context.read<CardCreator>().company,
-                                companyaddress:
-                                    context.read<CardCreator>().companyAddress,
-                                companyphone:
-                                    context.read<CardCreator>().companyPhone,
-                              )));
-                    },
+                    onClicked: () => previewCard(context),
                     icon: const Icon(Icons.remove_red_eye, size: 40),
                   ),
 
@@ -70,89 +44,7 @@ class AddCard extends StatelessWidget {
                   /// *
                   LogoButton(
                     text: 'Upload',
-                    onClicked: () async {
-                      WidgetsFlutterBinding.ensureInitialized();
-                      // * Increment the ID
-                      // * get the current id of the users' card
-                      String cardId = '0';
-                      try {
-                        /// * if the user has an account
-                        await FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(context.read<QueryProvider>().userID)
-                            .update({'card-id': FieldValue.increment(1)});
-                      } on FirebaseException catch (e) {
-                        // * if the user was not found init their profile
-                        await FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(context.read<QueryProvider>().userID)
-                            .set({"card-id": 0, 'wallet': []});
-                      }
-
-                      /// * Gets the ID of the next card to upload.
-                      await FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(context.read<QueryProvider>().userID)
-                          .get()
-                          .then((doc) {
-                        int val = doc.get('card-id');
-                        cardId = "${context.read<QueryProvider>().userID}-$val";
-                      });
-
-                      // * create the businesscard obj
-                      var bCard = BusinessCard(
-                        id: cardId,
-                        theme: context.read<CardCreator>().theme,
-                        name: context.read<CardCreator>().name,
-                        position: context.read<CardCreator>().postion,
-                        email: context.read<CardCreator>().email,
-                        cellphone: context.read<CardCreator>().cellphone,
-                        website: context.read<CardCreator>().website,
-                        company: context.read<CardCreator>().company,
-                        companyaddress:
-                            context.read<CardCreator>().companyAddress,
-                        companyphone: context.read<CardCreator>().companyPhone,
-                      );
-                      // pass the bussiness card to the DB
-                      await FirebaseFirestore.instance
-                          .collection('Cards')
-                          .doc(cardId)
-                          .set({
-                        'card_id': cardId,
-                        'card': jsonEncode(bCard),
-                        'owner': context.read<QueryProvider>().userID,
-                        'scancount': 0,
-                        'refreshcount': 0,
-                      }).onError((error, stackTrace) =>
-                              ("${error} + ${stackTrace} =========== "));
-
-                      // Update the user profile with the ownership of the new card
-                      await FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(context.read<QueryProvider>().userID)
-                          .update({
-                        'personalcards': FieldValue.arrayUnion([cardId])
-                      }).onError((error, stackTrace) =>
-                              ("$error + $stackTrace ==========="));
-
-                      // * Updates the personal card provider with the latest
-                      // * * copy of the users cards
-
-                      await context
-                          .read<QueryProvider>()
-                          .updatePersonalcards(context);
-
-                      Fluttertoast.showToast(
-                          msg: "Card uploaded!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.blue,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-
-                      Navigator.pop(context);
-                    },
+                    onClicked: () => uploadCard(context),
                     icon: const Icon(Icons.upload, size: 40),
                   ),
                 ],
@@ -162,5 +54,83 @@ class AddCard extends StatelessWidget {
         ),
       );
 
-  void setState(Null Function() param0) {}
+  void previewCard(context) {
+    showModalBottomSheet(
+        // * Displays preview of business card
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) => CardView(
+            // * Create the mock BusinessCard from the providers
+            card: context.read<CardCreator>().getBusinessCard("preview")));
+  }
+
+  void uploadCard(BuildContext context) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    // * Increment the ID
+    // * get the current id of the users' card
+    String cardId = '0';
+    try {
+      /// * if the user has an account
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(context.read<QueryProvider>().userID)
+          .update({'card-id': FieldValue.increment(1)});
+    } on FirebaseException catch (e) {
+      // * if the user was not found init their profile
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(context.read<QueryProvider>().userID)
+          .set({"card-id": 0, 'wallet': []});
+    }
+
+    /// * Gets the ID of the next card to upload.
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().userID)
+        .get()
+        .then((doc) {
+      int val = doc.get('card-id');
+      cardId = "${context.read<QueryProvider>().userID}-$val";
+    });
+
+    // * create the businesscard obj
+    var bCard = context.read<CardCreator>().getBusinessCard(cardId);
+    // pass the bussiness card to the DB
+    await FirebaseFirestore.instance.collection('Cards').doc(cardId).set({
+      'card_id': cardId,
+      'card': jsonEncode(bCard),
+      'owner': context.read<QueryProvider>().userID,
+      'scancount': 0,
+      'refreshcount': 0,
+    }).onError(
+        (error, stackTrace) => ("${error} + ${stackTrace} =========== "));
+
+    // Update the user profile with the ownership of the new card
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().userID)
+        .update({
+      'personalcards': FieldValue.arrayUnion([cardId])
+    }).onError((error, stackTrace) => ("$error + $stackTrace ==========="));
+
+    // * Updates the personal card provider with the latest
+    // * * copy of the users cards
+
+    await context.read<QueryProvider>().updatePersonalcards(context);
+
+    Fluttertoast.showToast(
+        msg: "Card uploaded!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        fontSize: 16.0);
+
+    Navigator.pop(context);
+  }
 }
