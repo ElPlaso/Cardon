@@ -7,7 +7,6 @@ import 'package:cardonapp/data/business_card.dart';
 import 'package:cardonapp/providers/cardcreator_provider.dart';
 import 'package:cardonapp/providers/query_provider.dart';
 import '../widgets/card_view.dart';
-import '../widgets/logo_button.dart';
 import '../widgets/theme_toggle.dart';
 import '../widgets/card_form.dart';
 
@@ -16,59 +15,96 @@ import '../widgets/card_form.dart';
 class AddCard extends StatelessWidget {
   const AddCard({super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Upload Card'),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: SizedBox(
-            height: 1000,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 24),
-                  CardForm(
-                      card: BusinessCard(id: '', name: '', theme: 'nimbus')),
-                  const ThemeToggle(),
-
-                  /// * used as a style choice to display the icon to the right.
-                  LogoButton(
-                    text: 'Preview',
-                    onClicked: () => previewCard(context),
-                    icon: const Icon(Icons.remove_red_eye, size: 40),
-                  ),
-
-                  /// * Sends a upload query to the data base
-                  /// *
-                  LogoButton(
-                    text: 'Upload',
-                    onClicked: () => uploadCard(context),
-                    icon: const Icon(Icons.upload, size: 40),
-                  ),
-                ],
+  Widget build(BuildContext context) => SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            scrolledUnderElevation: 5,
+            elevation: 0,
+            backgroundColor: Colors.grey[50],
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: TextButton.icon(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                icon: const Icon(
+                  Icons.chevron_left,
+                ),
+                label: const Text("Back", style: TextStyle(fontSize: 20)),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
+            ),
+            leadingWidth: 100,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 8, right: 15),
+                child: TextButton(
+                  onPressed: () => {_uploadCard(context)},
+                  child: const Text("Done", style: TextStyle(fontSize: 20)),
+                ),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Create.",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                ),
+                CardForm(card: BusinessCard(id: '', name: '', theme: 'nimbus')),
+                const Padding(
+                    padding: EdgeInsets.all(25), child: ThemeToggle()),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            // Floating action button on Scaffold.
+            onPressed: () {
+              _previewCard(context);
+            },
+            child: const Icon(
+              Icons.remove_red_eye,
+              size: 35,
             ),
           ),
         ),
       );
 
-  void previewCard(context) {
+  void _previewCard(context) {
     showModalBottomSheet(
-        // * Displays preview of business card
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
+      // * Displays preview of business card
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
         ),
-        builder: (context) => CardView(
-            // * Create the mock BusinessCard from the providers
-            card: context.read<CardCreator>().getBusinessCard("preview")));
+      ),
+      builder: (context) => CardView(
+        // * Create the mock BusinessCard from the providers
+        card: context.read<CardCreator>().getBusinessCard("preview"),
+      ),
+    );
   }
 
-  void uploadCard(BuildContext context) async {
+  void _uploadCard(BuildContext context) async {
     WidgetsFlutterBinding.ensureInitialized();
     // * Increment the ID
     // * get the current id of the users' card
