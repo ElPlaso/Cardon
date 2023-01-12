@@ -53,7 +53,7 @@ class ThemeToggleState extends State<ThemeToggle> {
         primary: true,
         crossAxisCount: 3, //set the number of buttons in a row
         crossAxisSpacing: 8, //set the spacing between the buttons
-        childAspectRatio: 2, //set the width-to-height ratio of the button,
+        childAspectRatio: 3, //set the width-to-height ratio of the button,
         children: List.generate(
           isSelected.length,
           (index) {
