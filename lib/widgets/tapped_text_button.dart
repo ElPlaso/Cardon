@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 /// A Text Button that changes its Text and Icon opacity on pressed/unpressed.
 class TappedTextButton extends StatefulWidget {
   final String text;
-  final IconData iconData;
+  final IconData? iconData;
   final Function onTap;
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
   const TappedTextButton(
       {super.key,
       required this.text,
-      required this.iconData,
+      this.iconData,
       required this.onTap,
-      required this.textDirection});
+      this.textDirection});
   @override
   State<StatefulWidget> createState() => TappedTextButtonState();
 }
@@ -29,6 +29,11 @@ class TappedTextButtonState extends State<TappedTextButton> {
           tappedDown = !tappedDown;
         });
       },
+      onTapUp: (_) {
+        setState(() {
+          tappedDown = !tappedDown;
+        });
+      },
       onTapCancel: () {
         setState(() {
           tappedDown = !tappedDown;
@@ -38,21 +43,24 @@ class TappedTextButtonState extends State<TappedTextButton> {
         widget.onTap();
       },
       child: Directionality(
-        textDirection: widget.textDirection,
+        textDirection: widget.textDirection != null
+            ? widget.textDirection!
+            : TextDirection.ltr,
         child: Row(
           children: [
-            Padding(
-              padding: widget.textDirection == TextDirection.rtl
-                  ? const EdgeInsets.only(left: 5)
-                  : const EdgeInsets.only(right: 5),
-              child: Icon(
-                widget.iconData,
-                size: 20,
-                color: tappedDown
-                    ? Theme.of(context).colorScheme.primary.withOpacity(0.75)
-                    : Theme.of(context).colorScheme.primary,
+            if (widget.iconData != null)
+              Padding(
+                padding: widget.textDirection == TextDirection.rtl
+                    ? const EdgeInsets.only(left: 5)
+                    : const EdgeInsets.only(right: 5),
+                child: Icon(
+                  widget.iconData,
+                  size: 25,
+                  color: tappedDown
+                      ? Theme.of(context).colorScheme.primary.withOpacity(0.75)
+                      : Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
             Text(
               widget.text,
               style: TextStyle(
