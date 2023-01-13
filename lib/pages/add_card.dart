@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cardonapp/widgets/tapped_text_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,28 +22,28 @@ class AddCard extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.grey[50],
             leading: Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: TextButton.icon(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                icon: const Icon(
-                  Icons.chevron_left,
-                ),
-                label: const Text("Back", style: TextStyle(fontSize: 20)),
-                onPressed: () {
+              padding: const EdgeInsets.only(left: 10),
+              child: TappedTextButton(
+                iconData: Icons.chevron_left,
+                text: "Cancel",
+                onTap: () {
                   Navigator.pop(context);
                 },
+                textDirection: TextDirection.ltr,
               ),
             ),
-            leadingWidth: 100,
+            leadingWidth: 120,
             foregroundColor: Theme.of(context).colorScheme.primary,
             actions: [
               Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8, right: 20),
-                child: TextButton(
-                  onPressed: () => {_uploadCard(context)},
-                  child: const Text("Done", style: TextStyle(fontSize: 20)),
+                padding: const EdgeInsets.only(right: 15),
+                child: TappedTextButton(
+                  iconData: Icons.ios_share_outlined,
+                  text: "Done",
+                  onTap: () {
+                    _uploadCard(context);
+                  },
+                  textDirection: TextDirection.rtl,
                 ),
               ),
             ],
