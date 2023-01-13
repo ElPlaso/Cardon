@@ -1,3 +1,5 @@
+import 'package:cardonapp/widgets/theme_toggle.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +16,7 @@ class CardForm extends StatefulWidget {
 
   @override
   CardFormState createState() {
-    return CardFormState(card: card);
+    return CardFormState();
   }
 }
 
@@ -28,126 +30,139 @@ class CardFormState extends State<CardForm> {
 
   final ScrollController controller = ScrollController();
 
-  final BusinessCard card;
+  late BusinessCard card;
 
-  CardFormState({required this.card});
+  @override
+  void initState() {
+    super.initState();
+    card = widget.card;
+  }
 
   /// * The card is constructed from named text fields below.
   /// * The corresponding provider fields are updated with every change to the text
   /// * * fields
   @override
-  Widget build(BuildContext context) => Container(
-      margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: const Color.fromARGB(230, 230, 230, 230))),
-      child: Form(
-        key: _formKey,
-        child: SizedBox(
-          height: 350,
-          child: Scrollbar(
-            controller: controller,
-            thumbVisibility: true,
-            child: SingleChildScrollView(
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          elevation: 5,
+          child: Form(
+            key: _formKey,
+            child: CupertinoScrollbar(
               controller: controller,
-              child: Container(
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 20.0, bottom: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    TextFormField(
-                      initialValue: card.name,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                        hintText: 'Enter your name',
-                        labelText: 'Name',
+              thumbVisibility: true,
+              thickness: 5,
+              radius: const Radius.circular(20),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                controller: controller,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TextFormField(
+                        initialValue: card.name,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.person),
+                          hintText: 'Enter your name',
+                          labelText: 'Name',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setName(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setName(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.position,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.work),
-                        hintText: 'Enter your position',
-                        labelText: 'Position',
+                      TextFormField(
+                        initialValue: card.position,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.work),
+                          hintText: 'Enter your position',
+                          labelText: 'Position',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setPostion(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setPostion(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.email,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.email),
-                        hintText: 'Enter your email',
-                        labelText: 'Email',
+                      TextFormField(
+                        initialValue: card.email,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.email),
+                          hintText: 'Enter your email',
+                          labelText: 'Email',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setEmail(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setEmail(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.cellphone,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.phone_android),
-                        hintText: 'Enter your phone number',
-                        labelText: 'Cellphone',
+                      TextFormField(
+                        initialValue: card.cellphone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.phone_android),
+                          hintText: 'Enter your phone number',
+                          labelText: 'Cellphone',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setCellphone(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setCellphone(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.website,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.web),
-                        hintText: 'Enter your website url',
-                        labelText: 'Website',
+                      TextFormField(
+                        initialValue: card.website,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.web),
+                          hintText: 'Enter your website url',
+                          labelText: 'Website',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setWebsite(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setWebsite(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.company,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.business),
-                        hintText: 'Enter the name of your company',
-                        labelText: 'Company',
+                      TextFormField(
+                        initialValue: card.company,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.business),
+                          hintText: 'Enter the name of your company',
+                          labelText: 'Company',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setCompany(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setCompany(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.companyaddress,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.home),
-                        hintText: 'Enter the address of your company',
-                        labelText: 'Address',
+                      TextFormField(
+                        initialValue: card.companyaddress,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.home),
+                          hintText: 'Enter the address of your company',
+                          labelText: 'Address',
+                        ),
+                        onChanged: (value) => context
+                            .read<CardCreator>()
+                            .setCompanyAddress(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setCompanyAddress(value),
-                    ),
-                    TextFormField(
-                      initialValue: card.companyphone,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.phone),
-                        hintText: 'Enter the phone number of your company',
-                        labelText: 'Company Phone',
+                      TextFormField(
+                        initialValue: card.companyphone,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.phone),
+                          hintText: 'Enter the phone number of your company',
+                          labelText: 'Company Phone',
+                        ),
+                        onChanged: (value) =>
+                            context.read<CardCreator>().setCompanyPhone(value),
                       ),
-                      onChanged: (value) =>
-                          context.read<CardCreator>().setCompanyPhone(value),
-                    ),
-                  ],
+                      const Padding(
+                        padding: EdgeInsets.only(top: 25, bottom: 10),
+                        child: ThemeToggle(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ));
+      );
 }
