@@ -89,7 +89,7 @@ class UserCardPageState extends State<UserCardPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              margin: const EdgeInsets.all(15),
+                              margin: const EdgeInsets.only(top: 15),
                               child: WidgetsToImage(
                                 controller: controller,
                                 child: CardView(
@@ -149,7 +149,7 @@ class UserCardPageState extends State<UserCardPage> {
                                 SmallButton(
                                   text: 'Display QR Code',
                                   onClicked: () {
-                                    _showQRCard(context);
+                                    _showQRCode(context);
                                   },
                                   icon: const Icon(Icons.qr_code),
                                 )
@@ -175,7 +175,7 @@ class UserCardPageState extends State<UserCardPage> {
         ),
       );
 
-  _showQRCard(BuildContext context) {
+  _showQRCode(BuildContext context) {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
