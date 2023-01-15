@@ -27,8 +27,8 @@ class CardStackState extends State<CardStack> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width * 0.8,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: LayoutBuilder(
           builder: (context, constraints) => ListView(
             physics: const BouncingScrollPhysics(
@@ -60,7 +60,8 @@ class CardStackState extends State<CardStack> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.transparent,
+                                    color:
+                                        CardView.themes[card.theme]?.background,
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.15),
@@ -70,7 +71,10 @@ class CardStackState extends State<CardStack> {
                                       ),
                                     ],
                                   ),
-                                  child: CardView(card: card),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: CardView(card: card),
+                                  ),
                                 ),
                               ),
                             );
@@ -84,42 +88,5 @@ class CardStackState extends State<CardStack> {
             ],
           ),
         ),
-        // ListView(
-        //   children: context.watch<Cards>().personalcards.map(
-        //     (card) {
-        //       return Builder(
-        //         builder: (BuildContext context) {
-        //           return Align(
-        //             // Stack effect
-        //             heightFactor: 0.5,
-        //             alignment: Alignment.topCenter,
-        //             child: GestureDetector(
-        //               onTap: () => Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                     builder: (context) => UserCardPage(card: card)),
-        //               ),
-        //               child: Container(
-        //                 decoration: BoxDecoration(
-        //                   borderRadius: BorderRadius.circular(10),
-        //                   color: Colors.transparent,
-        //                   boxShadow: [
-        //                     BoxShadow(
-        //                       color: Colors.grey.withOpacity(0.15),
-        //                       blurRadius: 8,
-        //                       spreadRadius: 6,
-        //                       offset: const Offset(0, 0),
-        //                     ),
-        //                   ],
-        //                 ),
-        //                 child: CardView(card: card),
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       );
-        //     },
-        //   ).toList(),
-        // ),
       );
 }
