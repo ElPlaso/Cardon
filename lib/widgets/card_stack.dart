@@ -27,43 +27,99 @@ class CardStackState extends State<CardStack> {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      height: 400,
-      width: 300,
-      child: ListView(
-        children: context.watch<Cards>().personalcards.map(
-          (card) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Align(
-                  // Stack effect
-                  heightFactor: 0.5,
-                  alignment: Alignment.topCenter,
-                  child: GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserCardPage(card: card)),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.transparent,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.15),
-                            blurRadius: 8,
-                            spreadRadius: 6,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
-                      ),
-                      child: CardView(card: card),
-                    ),
+        height: MediaQuery.sizeOf(context).height,
+        width: MediaQuery.sizeOf(context).width * 0.8,
+        child: LayoutBuilder(
+          builder: (context, constraints) => ListView(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 150),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: context.watch<Cards>().personalcards.map(
+                      (card) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Align(
+                              // Stack effect
+                              heightFactor: 0.5,
+                              alignment: Alignment.topCenter,
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UserCardPage(card: card)),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.transparent,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.15),
+                                        blurRadius: 8,
+                                        spreadRadius: 6,
+                                        offset: const Offset(0, 0),
+                                      ),
+                                    ],
+                                  ),
+                                  child: CardView(card: card),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ).toList(),
                   ),
-                );
-              },
-            );
-          },
-        ).toList(),
-      ));
+                ),
+              ),
+            ],
+          ),
+        ),
+        // ListView(
+        //   children: context.watch<Cards>().personalcards.map(
+        //     (card) {
+        //       return Builder(
+        //         builder: (BuildContext context) {
+        //           return Align(
+        //             // Stack effect
+        //             heightFactor: 0.5,
+        //             alignment: Alignment.topCenter,
+        //             child: GestureDetector(
+        //               onTap: () => Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                     builder: (context) => UserCardPage(card: card)),
+        //               ),
+        //               child: Container(
+        //                 decoration: BoxDecoration(
+        //                   borderRadius: BorderRadius.circular(10),
+        //                   color: Colors.transparent,
+        //                   boxShadow: [
+        //                     BoxShadow(
+        //                       color: Colors.grey.withOpacity(0.15),
+        //                       blurRadius: 8,
+        //                       spreadRadius: 6,
+        //                       offset: const Offset(0, 0),
+        //                     ),
+        //                   ],
+        //                 ),
+        //                 child: CardView(card: card),
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ).toList(),
+        // ),
+      );
 }
