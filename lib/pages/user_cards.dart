@@ -33,8 +33,9 @@ class UserCards extends StatelessWidget {
             ),
             foregroundColor: Theme.of(context).colorScheme.primary,
           ),
-          body: const Center(
-            child: CardStack(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [CardStack()],
           ),
           floatingActionButton: FloatingActionButton(
             // Floating action button on Scaffold.
