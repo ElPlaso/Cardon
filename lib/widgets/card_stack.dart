@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../pages/user_card_page.dart';
 import '../providers/card_provider.dart';
 import 'card_view.dart';
+import 'package:card_stack_widget/card_stack_widget.dart';
 
 // * List view of user's cards
 // * Displays the cards stacked on top of eachother
@@ -17,53 +18,72 @@ class CardStack extends StatefulWidget {
 }
 
 class CardStackState extends State<CardStack> {
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
-  }
+  final double cardHeight = 200;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-      height: 400,
-      width: 300,
-      child: ListView(
-        children: context.watch<Cards>().personalcards.map(
-          (card) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Align(
-                  // Stack effect
-                  heightFactor: 0.5,
-                  alignment: Alignment.topCenter,
-                  child: GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserCardPage(card: card)),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.transparent,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.15),
-                            blurRadius: 8,
-                            spreadRadius: 6,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
+  Widget build(BuildContext context) {
+    final cardList = buildCardList(context);
+    final int numCards = context.watch<Cards>().personalcards.length;
+    return SizedBox(
+      height: cardHeight + (numCards) * 0.3 * cardHeight,
+      width: MediaQuery.of(context).size.width,
+      child: CardStackWidget(
+        opacityChangeOnDrag: true,
+        swipeOrientation:
+            numCards > 1 ? CardOrientation.both : CardOrientation.none,
+        cardDismissOrientation:
+            numCards > 1 ? CardOrientation.both : CardOrientation.none,
+        positionFactor: 3,
+        scaleFactor: 0,
+        alignment: Alignment.center,
+        animateCardScale: false,
+        cardList: cardList,
+      ),
+    );
+  }
+
+  /// Creates the list of Card Models.
+  static buildCardList(BuildContext context) {
+    final double containerWidth = MediaQuery.of(context).size.width * 0.8;
+
+    return context.watch<Cards>().personalcards.map(
+      (card) {
+        return CardModel(
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          child: SizedBox(
+            width: containerWidth,
+            child: GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserCardPage(card: card)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: CardView.themes[card.theme]?.background,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        spreadRadius: 6,
+                        offset: const Offset(0, 0),
                       ),
-                      child: CardView(card: card),
-                    ),
+                    ],
                   ),
-                );
-              },
-            );
-          },
-        ).toList(),
-      ));
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: CardView(card: card),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ).toList();
+  }
 }
