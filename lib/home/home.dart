@@ -42,42 +42,50 @@ class HomeState extends State<Home> {
             ),
             slivers: [
               SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  stretch: true,
-                  collapsedHeight: 325.0,
-                  flexibleSpace: Column(children: [
+                backgroundColor: Colors.transparent,
+                stretch: true,
+                collapsedHeight: 325.0,
+                flexibleSpace: Column(
+                  children: [
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 20, right: 20, top: 50),
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              MyApp.title,
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            MyApp.title,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
                             ),
-                            IconButton(
-                                onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AddCard()),
-                                    ),
-                                icon: Icon(Icons.library_add,
-                                    size: 30,
-                                    color:
-                                        Theme.of(context).colorScheme.primary))
-                          ]),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AddCard(),
+                              ),
+                            ),
+                            icon: Icon(
+                              Icons.library_add,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     context.watch<Cards>().isEmpty(true)
                         ? const HomeBanner(
-                            subheading: 'Add a card to get started')
+                            subheading: 'Add a card to get started',
+                          )
                         : const Carousel(),
-                  ])),
+                  ],
+                ),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 250,
@@ -88,45 +96,50 @@ class HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       elevation: 5,
-                      child: Column(children: [
-                        MenuButton(
-                          count: context.read<Cards>().personalcards.length,
-                          icon: const Icon(Icons.person),
-                          onClicked: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UserCards()),
+                      child: Column(
+                        children: [
+                          MenuButton(
+                            count: context.read<Cards>().personalcards.length,
+                            icon: const Icon(Icons.person),
+                            onClicked: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const UserCards(),
+                              ),
+                            ),
+                            text: 'Your cards',
                           ),
-                          text: 'Your cards',
-                        ),
-                        MenuButton(
-                          count: context.read<Cards>().collectedcards.length,
-                          icon: const Icon(Icons.wallet),
-                          onClicked: () => {
-                            if (context.read<Cards>().isEmpty(false))
-                              {
-                                Fluttertoast.showToast(
+                          MenuButton(
+                            count: context.read<Cards>().collectedcards.length,
+                            icon: const Icon(Icons.wallet),
+                            onClicked: () => {
+                              if (context.read<Cards>().isEmpty(false))
+                                {
+                                  Fluttertoast.showToast(
                                     msg:
-                                        "No saved cards. Scan a card to add it to your list!",
+                                        'No saved cards. Scan a card to add it to your list!',
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.CENTER,
                                     timeInSecForIosWeb: 1,
                                     backgroundColor: Colors.blue,
                                     textColor: Colors.white,
-                                    fontSize: 16.0)
-                              }
-                            else
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Wallet()),
-                                )
-                              }
-                          },
-                          text: 'Wallet',
-                        ),
-                      ]),
+                                    fontSize: 16.0,
+                                  )
+                                }
+                              else
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Wallet(),
+                                    ),
+                                  )
+                                }
+                            },
+                            text: 'Wallet',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

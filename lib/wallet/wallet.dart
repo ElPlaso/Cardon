@@ -21,13 +21,13 @@ class Wallet extends StatelessWidget {
               shadowColor: Colors.transparent,
               backgroundColor: Colors.transparent,
               title: const Text(
-                "Wallet.",
+                'Wallet.',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               leading: Padding(
                 padding: const EdgeInsets.only(left: 13),
                 child: TappedTextButton(
-                  text: "",
+                  text: '',
                   iconData: Icons.chevron_left,
                   onTap: () {
                     Navigator.pop(context);

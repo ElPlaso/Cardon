@@ -12,14 +12,17 @@ class CardView extends StatelessWidget {
 
   static Map<String, ThemeCard> themes = {
     'nimbus': ThemeCard(
-        background: const Color.fromARGB(255, 29, 29, 29),
-        foreground: const Color.fromARGB(255, 200, 200, 200)),
+      background: const Color.fromARGB(255, 29, 29, 29),
+      foreground: const Color.fromARGB(255, 200, 200, 200),
+    ),
     'eggshell': ThemeCard(
-        background: const Color.fromARGB(255, 240, 234, 214),
-        foreground: const Color.fromARGB(255, 0, 0, 0)),
+      background: const Color.fromARGB(255, 240, 234, 214),
+      foreground: const Color.fromARGB(255, 0, 0, 0),
+    ),
     'off-white': ThemeCard(
-        background: const Color.fromARGB(255, 255, 255, 255),
-        foreground: const Color.fromARGB(255, 0, 0, 0)),
+      background: const Color.fromARGB(255, 255, 255, 255),
+      foreground: const Color.fromARGB(255, 0, 0, 0),
+    ),
   };
 
   const CardView({Key? key, required this.card, this.fit = BoxFit.contain})
@@ -53,17 +56,19 @@ class CardView extends StatelessWidget {
                         AutoSizeText(
                           card.name,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 27),
+                            color: themes[card.theme]?.foreground,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                          ),
                           minFontSize: 17,
                         ),
                         AutoSizeText(
                           card.position,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 17),
+                            color: themes[card.theme]?.foreground,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 17,
+                          ),
                           minFontSize: 9,
                         ),
                       ],
@@ -106,24 +111,27 @@ class CardView extends StatelessWidget {
                           'E-mail: ${card.email}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontSize: 15),
+                            color: themes[card.theme]?.foreground,
+                            fontSize: 15,
+                          ),
                           minFontSize: 5,
                         ),
                         AutoSizeText(
                           'Cellphone: ${card.cellphone}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontSize: 15),
+                            color: themes[card.theme]?.foreground,
+                            fontSize: 15,
+                          ),
                           minFontSize: 5,
                         ),
                         AutoSizeText(
                           'Website: ${card.website}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontSize: 15),
+                            color: themes[card.theme]?.foreground,
+                            fontSize: 15,
+                          ),
                           minFontSize: 5,
                         ),
                       ],
@@ -159,9 +167,10 @@ class CardView extends StatelessWidget {
                           'Phone: ${card.companyphone}',
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                              color: themes[card.theme]?.foreground,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 15),
+                            color: themes[card.theme]?.foreground,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 15,
+                          ),
                           minFontSize: 5,
                         ),
                       ],

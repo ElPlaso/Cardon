@@ -6,12 +6,13 @@ class TappedTextButton extends StatefulWidget {
   final IconData? iconData;
   final Function onTap;
   final TextDirection? textDirection;
-  const TappedTextButton(
-      {super.key,
-      required this.text,
-      this.iconData,
-      required this.onTap,
-      this.textDirection});
+  const TappedTextButton({
+    super.key,
+    required this.text,
+    this.iconData,
+    required this.onTap,
+    this.textDirection,
+  });
   @override
   State<StatefulWidget> createState() => TappedTextButtonState();
 }

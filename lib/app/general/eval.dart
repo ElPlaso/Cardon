@@ -20,8 +20,8 @@ class EvalState extends State<Eval> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) => Scaffold(
-      key: scaffoldKey,
-      body: StreamBuilder(
+        key: scaffoldKey,
+        body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,5 +40,7 @@ class EvalState extends State<Eval> {
               context.read<QueryProvider>().setUserId('');
               return const Login();
             }
-          }));
+          },
+        ),
+      );
 }

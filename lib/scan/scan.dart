@@ -47,17 +47,19 @@ class _ScanState extends State<Scan> {
                           .collection('Users')
                           .doc(context.read<QueryProvider>().userID)
                           .get()
-                          .then((document) => {
-                                if (!document.exists)
-                                  {
-                                    FirebaseFirestore.instance
-                                        .collection('Users')
-                                        .doc(context
-                                            .read<QueryProvider>()
-                                            .userID)
-                                        .set({"card-id": 0, 'wallet': []})
-                                  }
-                              });
+                          .then(
+                            (document) => {
+                              if (!document.exists)
+                                {
+                                  FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc(
+                                        context.read<QueryProvider>().userID,
+                                      )
+                                      .set({'card-id': 0, 'wallet': []})
+                                }
+                            },
+                          );
                       await FirebaseFirestore.instance
                           .collection('Users')
                           .doc(context.read<QueryProvider>().getUserID)
@@ -67,28 +69,31 @@ class _ScanState extends State<Scan> {
 
                       await context.read<QueryProvider>().updateWallet(context);
                       Fluttertoast.showToast(
-                          msg: "Card scanned!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.blue,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                        msg: 'Card scanned!',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.blue,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
                       Navigator.pop(context);
                     } on FirebaseException catch (_) {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                                title: const Text("Error"),
-                                content: const Text(
-                                    "Sorry, this card is not in the database."),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, "Okay"),
-                                      child: const Text("Okay"))
-                                ],
-                              ));
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Error'),
+                          content: const Text(
+                            'Sorry, this card is not in the database.',
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Okay'),
+                              child: const Text('Okay'),
+                            )
+                          ],
+                        ),
+                      );
                     }
                   }
                 } catch (_) {
@@ -96,13 +101,14 @@ class _ScanState extends State<Scan> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                      title: const Text("Error"),
+                      title: const Text('Error'),
                       content: const Text(
-                          "Couldn't scan. \nIs this a valid QR Code?"),
+                        "Couldn't scan. \nIs this a valid QR Code?",
+                      ),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text("Okay"),
+                          child: const Text('Okay'),
                         ),
                       ],
                     ),

@@ -57,7 +57,7 @@ class CardStackState extends State<CardStack> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => UserCardPage(card: card)),
+                    builder: (context) => UserCardPage(card: card),),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
