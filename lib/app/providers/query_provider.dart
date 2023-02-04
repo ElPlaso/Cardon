@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/card_provider.dart';
 
+/// Provider for Firebase queries.
 class QueryProvider with ChangeNotifier {
-  ///
-  /// * Populates the context  _collectedcards
-  ///
   String userID = '';
   String get getUserID => userID;
   void setUserId(String? uid) {
@@ -20,9 +18,8 @@ class QueryProvider with ChangeNotifier {
     }
   }
 
-  /// * Collects the cards found in the users wallet and stores the most updated
-  /// * * version locally in the Cards provider
-  ///
+  /// Collects the cards found in the users wallet and stores the most updated
+  /// version locally in the Cards provider.
   Future<void> updateWallet(BuildContext context) async {
     if (!context.read<Cards>().isEmpty(false)) {
       context.read<Cards>().clear(false);
@@ -59,10 +56,7 @@ class QueryProvider with ChangeNotifier {
     });
   }
 
-  ///
-  /// * Populates the Cards provider with all the users personally created cards
-  /// *
-  ///
+  /// Populates the Cards provider with all the users personally created cards.
   Future<void> updatePersonalcards(BuildContext context) async {
     if (!context.read<Cards>().isEmpty(true)) {
       context.read<Cards>().clear(true);

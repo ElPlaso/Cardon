@@ -2,7 +2,7 @@ import 'package:cardonapp/app/providers/cardcreator_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// Row of radio button to toggle card theme
+/// A row of buttons to toggle a business card's theme.
 
 class ThemeToggle extends StatefulWidget {
   const ThemeToggle({

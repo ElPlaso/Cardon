@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-// * The App
+/// The app.
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -25,7 +25,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  /// * Init global providers, that will be used throughout the app.
+  // Initialise the providers that will be used throughout the app.
   runApp(
     MultiProvider(
       providers: [
@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: title,
           theme: ThemeData(primaryColor: Colors.blue),
-          // * On entry to the app. This Navigates the user to
-          // * - the evaluation component
+          // On entry to the app, this Navigates the user to
+          // the evaluation widget.
           initialRoute: '/eval',
           routes: Navigate.routes,
         ),

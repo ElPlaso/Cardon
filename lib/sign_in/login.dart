@@ -3,7 +3,7 @@ import 'package:cardonapp/main.dart';
 import 'package:cardonapp/sign_in/widgets/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 
-// * Login page
+/// Page that allows users to sign in.
 
 class Login extends StatefulWidget {
   const Login({super.key});

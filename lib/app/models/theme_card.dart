@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Model for the theme of a business card.
 class ThemeCard {
   Color background;
   Color foreground;
