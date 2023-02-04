@@ -1,9 +1,9 @@
-import 'package:cardonapp/firebase_options.dart';
-import 'package:cardonapp/providers/card_provider.dart';
-import 'package:cardonapp/providers/cardcreator_provider.dart';
-import 'package:cardonapp/providers/query_provider.dart';
-import 'package:cardonapp/widgets/google_sign_in.dart';
-import 'package:cardonapp/widgets/navigate.dart';
+import 'package:cardonapp/app/general/firebase_options.dart';
+import 'package:cardonapp/app/providers/card_provider.dart';
+import 'package:cardonapp/app/providers/cardcreator_provider.dart';
+import 'package:cardonapp/app/providers/query_provider.dart';
+import 'package:cardonapp/app/providers/google_sign_in.dart';
+import 'package:cardonapp/app/general/navigate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
