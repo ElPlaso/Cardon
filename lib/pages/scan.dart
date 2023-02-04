@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:cardonapp/data/business_card.dart';
-import 'package:cardonapp/providers/card_provider.dart';
 import 'package:cardonapp/providers/query_provider.dart';
-import '../main.dart';
 
 // * Allows user to scan a QR-Code
 
@@ -26,18 +23,15 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(MyApp.title),
-        centerTitle: true,
-      ),
       body: Column(
         children: <Widget>[
           Expanded(
             flex: 5,
             child: MobileScanner(
-                controller: controller,
-                allowDuplicates: false,
-                onDetect: (barcode, args) async {
+              controller: controller,
+              allowDuplicates: false,
+              onDetect: (barcode, args) async {
+                try {
                   if (barcode.rawValue != null) {
                     var data = barcode.rawValue!;
                     var cardMap = jsonDecode(data);
@@ -81,13 +75,13 @@ class _ScanState extends State<Scan> {
                           textColor: Colors.white,
                           fontSize: 16.0);
                       Navigator.pop(context);
-                    } on FirebaseException catch (e) {
+                    } on FirebaseException catch (_) {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                                 title: const Text("Error"),
                                 content: const Text(
-                                    "Card not in database (deleted)"),
+                                    "Sorry, this card is not in the database."),
                                 actions: <Widget>[
                                   TextButton(
                                       onPressed: () =>
@@ -97,10 +91,34 @@ class _ScanState extends State<Scan> {
                               ));
                     }
                   }
-                }),
+                } catch (_) {
+                  // Alert user that something went wrong when scanning.
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text("Error"),
+                      content: const Text(
+                          "Couldn't scan. \nIs this a valid QR Code?"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Okay"),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        // Floating action button on Scaffold.
+        onPressed: () => Navigator.pop(context),
+        child: const Icon(Icons.close, size: 35),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
