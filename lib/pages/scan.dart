@@ -1,11 +1,10 @@
 import 'dart:convert';
+import 'package:cardonapp/pages/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:cardonapp/data/business_card.dart';
-import 'package:cardonapp/providers/card_provider.dart';
 import 'package:cardonapp/providers/query_provider.dart';
 import '../main.dart';
 
@@ -26,10 +25,6 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(MyApp.title),
-        centerTitle: true,
-      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -101,6 +96,12 @@ class _ScanState extends State<Scan> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        // Floating action button on Scaffold.
+        onPressed: () => Navigator.pop(context),
+        child: const Icon(Icons.close, size: 35),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
