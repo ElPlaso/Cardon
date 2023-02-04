@@ -13,10 +13,10 @@ class Eval extends StatefulWidget {
   const Eval({super.key});
 
   @override
-  _EvalState createState() => _EvalState();
+  EvalState createState() => EvalState();
 }
 
-class _EvalState extends State<Eval> {
+class EvalState extends State<Eval> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) => Scaffold(

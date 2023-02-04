@@ -18,7 +18,7 @@ class CardView extends StatelessWidget {
         background: const Color.fromARGB(255, 240, 234, 214),
         foreground: const Color.fromARGB(255, 0, 0, 0)),
     'off-white': ThemeCard(
-        background: Color.fromARGB(255, 255, 255, 255),
+        background: const Color.fromARGB(255, 255, 255, 255),
         foreground: const Color.fromARGB(255, 0, 0, 0)),
   };
 

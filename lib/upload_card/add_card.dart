@@ -113,7 +113,7 @@ class AddCard extends StatelessWidget {
           .collection('Users')
           .doc(context.read<QueryProvider>().userID)
           .update({'card-id': FieldValue.increment(1)});
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (_) {
       // * if the user was not found init their profile
       await FirebaseFirestore.instance
           .collection('Users')
@@ -140,8 +140,7 @@ class AddCard extends StatelessWidget {
       'owner': context.read<QueryProvider>().userID,
       'scancount': 0,
       'refreshcount': 0,
-    }).onError(
-        (error, stackTrace) => ("${error} + ${stackTrace} =========== "));
+    }).onError((error, stackTrace) => ("$error + $stackTrace =========== "));
 
     // Update the user profile with the ownership of the new card
     await FirebaseFirestore.instance
