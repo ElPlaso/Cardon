@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-// * Smaller version of logo button
-// * Requires button text and icon
+/// A simple button to be used in a list / column.
+///
+/// Used to signal actions, in a page where multiple actions can be performed.
+/// Its relating icon is displayed on the right.
 
 class SmallButton extends StatelessWidget {
   final String text;

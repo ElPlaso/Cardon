@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-// * Banner to welcome users to app
-// * Requires subheading String
-
+/// A widget which welcomes users to the app.
+///
+/// This widget can be customized with a given subheading.
 class HomeBanner extends StatelessWidget {
   final String subheading;
 

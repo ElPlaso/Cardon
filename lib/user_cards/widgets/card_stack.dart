@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:card_stack_widget/card_stack_widget.dart';
 
-// * List view of user's cards
-// * Displays the cards stacked on top of eachother
-
+/// A widget which displays a user's list of cards in a stack.
 class CardStack extends StatefulWidget {
   const CardStack({super.key});
 
@@ -42,7 +40,7 @@ class CardStackState extends State<CardStack> {
     );
   }
 
-  /// Creates the list of Card Models.
+  /// Creates the list of [CardModel]s which contain [CardView]s.
   static buildCardList(BuildContext context) {
     final double containerWidth = MediaQuery.of(context).size.width * 0.8;
 
@@ -57,7 +55,8 @@ class CardStackState extends State<CardStack> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => UserCardPage(card: card),),
+                  builder: (context) => UserCardPage(card: card),
+                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),

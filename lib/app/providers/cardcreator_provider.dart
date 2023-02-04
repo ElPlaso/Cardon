@@ -1,6 +1,7 @@
 import 'package:cardonapp/app/models/business_card.dart';
 import 'package:flutter/material.dart';
 
+/// Provider for the current card being created.
 class CardCreator with ChangeNotifier {
   String _theme = 'nimbus';
   String get theme => _theme;
@@ -65,6 +66,7 @@ class CardCreator with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Builds a [BusinessCard] with the current information.
   BusinessCard getBusinessCard(id) => BusinessCard(
         id: id,
         theme: theme,

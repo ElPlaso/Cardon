@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 
-// * Displays user's cards as an automatic carousel
+/// Widget which displays user's cards in an automatic carousel.
 
 class Carousel extends StatefulWidget {
   const Carousel({super.key});

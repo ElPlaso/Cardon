@@ -12,9 +12,10 @@ import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/card_provider.dart';
 import 'package:cardonapp/app/providers/query_provider.dart';
 
-// * Homepage that users are redirected to when logged in
-// * Displays a welcome banner or user's cards if they exist
-// * Provides navigation to other pages
+/// Page that users are redirected to when logged in.
+///
+/// Displays a welcome banner or the user's cards if they exist.
+/// Provides navigation to other pages.
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -147,7 +148,6 @@ class HomeState extends State<Home> {
             ],
           ),
           floatingActionButton: FloatingActionButton(
-            // Floating action button on Scaffold.
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Scan()),
@@ -158,9 +158,8 @@ class HomeState extends State<Home> {
               FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: const BottomAppBar(
             color: Colors.blue,
-            shape: CircularNotchedRectangle(), // Shape of notch.
-            notchMargin:
-                5, // Notched margin between floating button and bottom app bar.
+            shape: CircularNotchedRectangle(),
+            notchMargin: 5,
             child: SizedBox(
               height: 50,
             ),

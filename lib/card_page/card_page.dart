@@ -12,26 +12,20 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// * Page that allows user to view a card in their wallet
-// * Requires a business card object
-// * Allows user to then save, print and remove cards from wallet
-
+/// Page that allows user to view a card in their wallet.
+///
+/// Allows user to then save, print, or remove cards from wallet.
 class CardPage extends StatefulWidget {
   final BusinessCard card;
   const CardPage({Key? key, required this.card}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
-  State<CardPage> createState() => _CardPageState(card: card);
+  State<CardPage> createState() => _CardPageState();
 }
 
 class _CardPageState extends State<CardPage> {
   final WidgetsToImageController controller = WidgetsToImageController();
   Uint8List? bytes;
-
-  final BusinessCard card;
-
-  _CardPageState({required this.card});
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -76,7 +70,7 @@ class _CardPageState extends State<CardPage> {
                       SizedBox(
                         height: 325,
                         child: Card(
-                          color: CardView.themes[card.theme]?.background,
+                          color: CardView.themes[widget.card.theme]?.background,
                           margin: const EdgeInsets.all(15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -99,10 +93,10 @@ class _CardPageState extends State<CardPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Scans: ${card.scancount}',
+                                    'Scans: ${widget.card.scancount}',
                                     style: TextStyle(
-                                      color: CardView
-                                          .themes[card.theme]?.foreground,
+                                      color: CardView.themes[widget.card.theme]
+                                          ?.foreground,
                                     ),
                                   ),
                                   const SizedBox(
@@ -110,10 +104,10 @@ class _CardPageState extends State<CardPage> {
                                     height: 1,
                                   ),
                                   Text(
-                                    'Refreshes: ${card.refreshcount}',
+                                    'Refreshes: ${widget.card.refreshcount}',
                                     style: TextStyle(
-                                      color: CardView
-                                          .themes[card.theme]?.foreground,
+                                      color: CardView.themes[widget.card.theme]
+                                          ?.foreground,
                                     ),
                                   )
                                 ],
@@ -140,18 +134,18 @@ class _CardPageState extends State<CardPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            /// * Saves A image of the QRCard to the users android gallery
+                            // Saves a image of the QRCard to the users android gallery.
                             SmallButton(
                               text: 'Add to Photos',
 
-                              // save widget as image bytes
+                              // Save the widget as image bytes.
                               onClicked: () {
                                 _saveCardAsImage();
                               },
                               icon: const Icon(Icons.collections, size: 25),
                             ),
 
-                            /// * Shows the QR code of the selected QRCard
+                            // Shows the QR code of the selected QRCard.
                             SmallButton(
                               text: 'Display QR Code',
                               onClicked: () {
@@ -184,7 +178,7 @@ class _CardPageState extends State<CardPage> {
         .collection('Users')
         .doc(context.read<QueryProvider>().userID)
         .update({
-      'wallet': FieldValue.arrayRemove([card.id])
+      'wallet': FieldValue.arrayRemove([widget.card.id])
     });
     await context.read<QueryProvider>().updateWallet(context);
     Fluttertoast.showToast(
@@ -205,7 +199,7 @@ class _CardPageState extends State<CardPage> {
       this.bytes = bytes;
     });
 
-    // if widget was succesfully turned into image bytes, save image to phone gallery.
+    // If the widget was succesfully turned into image bytes, save image to phone gallery.
     if (bytes != null) {
       ImageGallerySaver.saveImage(
         bytes,
@@ -214,7 +208,7 @@ class _CardPageState extends State<CardPage> {
       );
     }
 
-    // Inform user that the image has been saved.
+    // Inform the user that the image has been saved.
     Fluttertoast.showToast(
       msg: 'Image saved!',
       toastLength: Toast.LENGTH_SHORT,
@@ -234,7 +228,7 @@ class _CardPageState extends State<CardPage> {
           top: Radius.circular(20),
         ),
       ),
-      builder: (context) => Center(child: QRImageGen(card: card)),
+      builder: (context) => Center(child: QRImageGen(card: widget.card)),
     );
   }
 }

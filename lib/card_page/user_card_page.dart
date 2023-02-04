@@ -15,11 +15,10 @@ import 'package:widgets_to_image/widgets_to_image.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-// * Allows user to view a card of their own
-// * Requires business card
-// * Users can then edit or delete card
-// * Users can also save, print, and view QR Code of card
-
+/// Page that allows user to view a card of their own.
+///
+/// Users can then edit or delete the card.
+/// Users can also save, print, and view QR Code of card.
 class UserCardPage extends StatefulWidget {
   final BusinessCard card;
   const UserCardPage({Key? key, required this.card}) : super(key: key);
@@ -170,7 +169,6 @@ class UserCardPageState extends State<UserCardPage> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            // Floating action button on Scaffold.
             onPressed: () {
               _deleteCard(context);
             },
@@ -237,12 +235,12 @@ class UserCardPageState extends State<UserCardPage> {
   }
 
   _deleteCard(BuildContext context) async {
-    // delete card from db
+    // Delete card from db.
     await FirebaseFirestore.instance
         .collection('Cards')
         .doc(widget.card.id)
         .delete();
-    // delete card from owners' personal collection
+    // Delete card from owners' personal collection.
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(context.read<QueryProvider>().getUserID)
@@ -250,7 +248,7 @@ class UserCardPageState extends State<UserCardPage> {
       'personalcards': FieldValue.arrayRemove([widget.card.id])
     });
 
-    // ! delete every other reference to the card
+    // Delete every other reference to the card.
     await FirebaseFirestore.instance
         .collection('Users')
         .where('wallet', arrayContains: widget.card.id)
@@ -263,13 +261,13 @@ class UserCardPageState extends State<UserCardPage> {
       }
     });
 
-    /// * Deletes seleted card from local storage
+    // Delete seleted card from local storage.
     context.read<Cards>().delete(widget.card, true);
 
-    /// * refreshes the local storage
+    // Refresh the local storage.
     await context.read<QueryProvider>().updatePersonalcards(context);
 
-    /// * Popup to notify user of change.
+    // Notify user of change.
     Fluttertoast.showToast(
       msg: 'Card deleted!',
       toastLength: Toast.LENGTH_SHORT,

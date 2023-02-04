@@ -1,4 +1,6 @@
-// Class representing a Business Card.
+/// Model for a Business Card.
+///
+/// It has a unique ID and other fields for useful information.
 class BusinessCard {
   String id;
   String theme;
@@ -13,7 +15,6 @@ class BusinessCard {
   int scancount;
   int refreshcount;
 
-  // Has a unique ID and other fields for useful information.
   BusinessCard({
     required this.id,
     required this.theme,
@@ -30,8 +31,8 @@ class BusinessCard {
   });
 
   // Create a BusinessCard instance from a Map for serialisation.
-  // This Map is returned by jsonDecode() when decoding an encoded
-  // card. Usage:
+  // This Map is returned by jsonDecode() when decoding an encoded card.
+  // Usage:
   // BusinessCard card = BusinessCard.fromJson(jsonDecode(JSON_String));
   BusinessCard.fromJson(Map<String, dynamic> json)
       : id = json['id'],

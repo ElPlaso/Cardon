@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:cardonapp/app/models/business_card.dart';
 import 'package:cardonapp/app/widgets/card_view.dart';
 import 'package:cardonapp/app/widgets/tapped_text_button.dart';
-import 'package:cardonapp/upload_card/wigets/card_form.dart';
+import 'package:cardonapp/upload_card/widgets/card_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/cardcreator_provider.dart';
 import 'package:cardonapp/app/providers/query_provider.dart';
 
-// * Page that allows user to preview and create cards
+/// Page that allows user to preview and create cards.
 
 class AddCard extends StatelessWidget {
   const AddCard({super.key});
@@ -76,7 +76,6 @@ class AddCard extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            // Floating action button on Scaffold.
             onPressed: () {
               _previewCard(context);
             },
@@ -90,7 +89,7 @@ class AddCard extends StatelessWidget {
 
   void _previewCard(context) {
     showModalBottomSheet(
-      // * Displays preview of business card
+      // Displays preview of business card.
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -98,7 +97,7 @@ class AddCard extends StatelessWidget {
         ),
       ),
       builder: (context) => CardView(
-        // * Create the mock BusinessCard from the providers
+        // Create the mock BusinessCard from the providers.
         card: context.read<CardCreator>().getBusinessCard('preview'),
       ),
     );
@@ -106,24 +105,24 @@ class AddCard extends StatelessWidget {
 
   void _uploadCard(BuildContext context) async {
     WidgetsFlutterBinding.ensureInitialized();
-    // * Increment the ID
-    // * get the current id of the users' card
+    // Increment the ID.
+    // Get the current id of the users' card.
     String cardId = '0';
     try {
-      /// * if the user has an account
+      // If the user has an account.
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(context.read<QueryProvider>().userID)
           .update({'card-id': FieldValue.increment(1)});
     } on FirebaseException catch (_) {
-      // * if the user was not found init their profile
+      // If the user was not found init their profile.
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(context.read<QueryProvider>().userID)
           .set({'card-id': 0, 'wallet': []});
     }
 
-    /// * Gets the ID of the next card to upload.
+    // Get the ID of the next card to upload.
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(context.read<QueryProvider>().userID)
@@ -133,9 +132,9 @@ class AddCard extends StatelessWidget {
       cardId = '${context.read<QueryProvider>().userID}-$val';
     });
 
-    // * create the businesscard obj
+    // Create the business card object.
     var bCard = context.read<CardCreator>().getBusinessCard(cardId);
-    // pass the bussiness card to the DB
+    // Pass the bussiness card to the DB.
     await FirebaseFirestore.instance.collection('Cards').doc(cardId).set({
       'card_id': cardId,
       'card': jsonEncode(bCard),
@@ -144,7 +143,7 @@ class AddCard extends StatelessWidget {
       'refreshcount': 0,
     }).onError((error, stackTrace) => ('$error + $stackTrace =========== '));
 
-    // Update the user profile with the ownership of the new card
+    // Update the user profile with the ownership of the new card.
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(context.read<QueryProvider>().userID)
@@ -152,8 +151,8 @@ class AddCard extends StatelessWidget {
       'personalcards': FieldValue.arrayUnion([cardId])
     }).onError((error, stackTrace) => ('$error + $stackTrace ==========='));
 
-    // * Updates the personal card provider with the latest
-    // * * copy of the users cards
+    // Updates the personal card provider with the latest
+    // copy of the users cards.
 
     await context.read<QueryProvider>().updatePersonalcards(context);
 

@@ -5,15 +5,15 @@ import 'package:cardonapp/app/providers/query_provider.dart';
 import 'package:cardonapp/app/widgets/card_view.dart';
 import 'package:cardonapp/app/widgets/tapped_text_button.dart';
 import 'package:cardonapp/card_page/user_card_page.dart';
-import 'package:cardonapp/upload_card/wigets/card_form.dart';
+import 'package:cardonapp/upload_card/widgets/card_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-// * Page to allow users to update an existing card of theirs
-// * Requires a business card object
-// * Allows users to preview changes made
 
+/// Page that allows users to update an existing card of theirs.
+///
+/// It also allows users to preview changes they've made in the form of a [CardView].
 class EditCard extends StatelessWidget {
   final BusinessCard card;
 

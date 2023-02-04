@@ -1,18 +1,27 @@
 import 'package:cardonapp/app/models/business_card.dart';
 import 'package:flutter/material.dart';
 
-// Provider for the list of person and collected cards.
+/// Provider for the list of personal and collected cards.
+///
+/// Read list with context.watch<Cards>().cards.
+/// Call other methods with context.read<Cards>().method()
+/// e.g. context.read<Cards>().add(card).
 class Cards with ChangeNotifier {
-  // Personal Card List
+  /// Personal Card List.
   final List<BusinessCard> _personalcards = [];
-  // Collected Card List
+
+  /// Collected Card List.
   final List<BusinessCard> _collectedcards = [];
-  // Personal Card Getter
+
+  /// Personal Card Getter.
   List<BusinessCard> get personalcards => _personalcards;
-  // Collected Card Getter
+
+  /// Collected Card Getter.
   List<BusinessCard> get collectedcards => _collectedcards;
 
-  /// adds only new cards to the provided list
+  /// Adds a given business card to the personal or collected list.
+  ///
+  /// Adds only new cards to the provided list
   ///
   /// * Example usage
   ///  context.read<Cards>()
@@ -23,8 +32,6 @@ class Cards with ChangeNotifier {
   /// * this adds a decoded card from a JSON query
   /// * to the personalcards array
   /// /
-
-  // Add a given business card to the personal or collected list.
   void add(BusinessCard b, bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     if (list.contains(b)) {
@@ -34,14 +41,14 @@ class Cards with ChangeNotifier {
     notifyListeners();
   }
 
-  // Delete a given business card from the personal or collected list.
+  /// Deletes a given business card from the personal or collected list.
   void delete(BusinessCard b, bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     list.remove(b);
     notifyListeners();
   }
 
-  // Delete multiple business cards from the personal or collected list.
+  /// Deletes multiple business cards from the personal or collected list.
   void deleteAll(List<BusinessCard> del, bool personal, String uid) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     for (var element in del) {
@@ -50,20 +57,16 @@ class Cards with ChangeNotifier {
     notifyListeners();
   }
 
-  // Clear the personal or collected list.
+  /// Clears the personal or collected list.
   void clear(bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     list.clear();
     // notifyListeners();
   }
 
-  // Check if the personal or collected list are empty.
+  /// Check if the personal or collected list are empty.
   bool isEmpty(bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     return list.isEmpty;
   }
-
-  //read list with context.watch<Cards>().cards
-  //call other methods with context.read<Cards>().method()
-  //eg context.read<Cards>().add(card)
 }

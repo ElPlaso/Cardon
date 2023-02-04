@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cardonapp/user_cards/widgets/card_stack.dart';
 import 'package:provider/provider.dart';
 
-// * Page to display user's created cards
-// * Allows user to then create a new card
-
+/// Page which display a user's personal cards.
 class UserCards extends StatelessWidget {
   const UserCards({super.key});
 
@@ -48,7 +46,9 @@ class UserCards extends StatelessWidget {
                       Text(
                         'No Cards',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold,),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -62,7 +62,8 @@ class UserCards extends StatelessWidget {
                     radius: const Radius.circular(20),
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics(),),
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [SizedBox(height: 20), CardStack()],
@@ -71,7 +72,6 @@ class UserCards extends StatelessWidget {
                   ),
                 ),
           floatingActionButton: FloatingActionButton(
-            // Floating action button on Scaffold.
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddCard()),

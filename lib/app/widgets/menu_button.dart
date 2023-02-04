@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-// * Icon button that aligns icon to the right
-// * Requires button text and icon
+/// A navigational menu button which displays a count of items.
+///
+/// For example:
+/// It can be used to navigate to a page that holds a list of cards.
+/// The count in this case would be the number of cards on the page /
+/// in the list.
 
 class MenuButton extends StatelessWidget {
   final String text;
   final int count;
   final VoidCallback onClicked;
   final Icon icon;
-
   const MenuButton({
     required this.text,
     required this.onClicked,

@@ -6,8 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-// * Allows user to scan a QR-Code
-
+/// Page which allows user to scan a QR-Code.
 class Scan extends StatefulWidget {
   const Scan({super.key});
 

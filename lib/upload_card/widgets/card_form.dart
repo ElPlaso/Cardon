@@ -1,13 +1,14 @@
 import 'package:cardonapp/app/models/business_card.dart';
-import 'package:cardonapp/upload_card/wigets/theme_toggle.dart';
+import 'package:cardonapp/upload_card/widgets/theme_toggle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/cardcreator_provider.dart';
 
-// * Form to take user input in order to create a new business card
-// * Is scrollable and features multiple text form fields
+/// A form which takes user input in order to create a new business card.
+///
+/// It is scrollable when needed and features multiple text form fields.
 
 class CardForm extends StatefulWidget {
   final BusinessCard card;
@@ -38,9 +39,9 @@ class CardFormState extends State<CardForm> {
     card = widget.card;
   }
 
-  /// * The card is constructed from named text fields below.
-  /// * The corresponding provider fields are updated with every change to the text
-  /// * * fields
+  // The card is constructed from named text fields below.
+  // The corresponding provider fields are updated with every change to the text
+  // fields.
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 25, right: 25),
