@@ -32,28 +32,30 @@ class QueryProvider with ChangeNotifier {
         .doc(userID)
         .get()
         .then((DocumentSnapshot value) {
-      value.get('wallet').forEach((element) async => {
-            await FirebaseFirestore.instance
-                .collection('Cards')
-                .doc(element)
-                .get()
-                .then((value) async {
-              BusinessCard card =
-                  BusinessCard.fromJson(jsonDecode(value.get('card')));
+      value.get('wallet').forEach(
+            (element) async => {
+              await FirebaseFirestore.instance
+                  .collection('Cards')
+                  .doc(element)
+                  .get()
+                  .then((value) async {
+                BusinessCard card =
+                    BusinessCard.fromJson(jsonDecode(value.get('card')));
 
-              card.refreshcount = value.get("refreshcount");
-              card.scancount = value.get("scancount");
-              context.read<Cards>().add(card, false);
+                card.refreshcount = value.get('refreshcount');
+                card.scancount = value.get('scancount');
+                context.read<Cards>().add(card, false);
 
-              if (element != userID) {
-                await FirebaseFirestore.instance
-                    .collection('Cards')
-                    .doc(card.id)
-                    .update({'refreshcount': FieldValue.increment(1)});
-                card.refreshcount = value.get("refreshcount") + 1;
-              }
-            })
-          });
+                if (element != userID) {
+                  await FirebaseFirestore.instance
+                      .collection('Cards')
+                      .doc(card.id)
+                      .update({'refreshcount': FieldValue.increment(1)});
+                  card.refreshcount = value.get('refreshcount') + 1;
+                }
+              })
+            },
+          );
     });
   }
 
@@ -73,8 +75,8 @@ class QueryProvider with ChangeNotifier {
       for (var element in doc.docs) {
         BusinessCard card =
             BusinessCard.fromJson(jsonDecode(element.get('card')));
-        card.refreshcount = element.get("refreshcount");
-        card.scancount = element.get("scancount");
+        card.refreshcount = element.get('refreshcount');
+        card.scancount = element.get('scancount');
         context.read<Cards>().add(card, true);
       }
     });

@@ -25,7 +25,7 @@ class AddCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: TappedTextButton(
                 iconData: Icons.chevron_left,
-                text: "Cancel",
+                text: 'Cancel',
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -39,7 +39,7 @@ class AddCard extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 15),
                 child: TappedTextButton(
                   iconData: Icons.ios_share_outlined,
-                  text: "Done",
+                  text: 'Done',
                   onTap: () {
                     _uploadCard(context);
                   },
@@ -57,17 +57,19 @@ class AddCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 20, right: 20, bottom: 10),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Create.",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Create.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
                 CardForm(card: BusinessCard(id: '', name: '', theme: 'nimbus')),
               ],
@@ -97,7 +99,7 @@ class AddCard extends StatelessWidget {
       ),
       builder: (context) => CardView(
         // * Create the mock BusinessCard from the providers
-        card: context.read<CardCreator>().getBusinessCard("preview"),
+        card: context.read<CardCreator>().getBusinessCard('preview'),
       ),
     );
   }
@@ -118,7 +120,7 @@ class AddCard extends StatelessWidget {
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(context.read<QueryProvider>().userID)
-          .set({"card-id": 0, 'wallet': []});
+          .set({'card-id': 0, 'wallet': []});
     }
 
     /// * Gets the ID of the next card to upload.
@@ -128,7 +130,7 @@ class AddCard extends StatelessWidget {
         .get()
         .then((doc) {
       int val = doc.get('card-id');
-      cardId = "${context.read<QueryProvider>().userID}-$val";
+      cardId = '${context.read<QueryProvider>().userID}-$val';
     });
 
     // * create the businesscard obj
@@ -140,7 +142,7 @@ class AddCard extends StatelessWidget {
       'owner': context.read<QueryProvider>().userID,
       'scancount': 0,
       'refreshcount': 0,
-    }).onError((error, stackTrace) => ("$error + $stackTrace =========== "));
+    }).onError((error, stackTrace) => ('$error + $stackTrace =========== '));
 
     // Update the user profile with the ownership of the new card
     await FirebaseFirestore.instance
@@ -148,7 +150,7 @@ class AddCard extends StatelessWidget {
         .doc(context.read<QueryProvider>().userID)
         .update({
       'personalcards': FieldValue.arrayUnion([cardId])
-    }).onError((error, stackTrace) => ("$error + $stackTrace ==========="));
+    }).onError((error, stackTrace) => ('$error + $stackTrace ==========='));
 
     // * Updates the personal card provider with the latest
     // * * copy of the users cards
@@ -156,13 +158,14 @@ class AddCard extends StatelessWidget {
     await context.read<QueryProvider>().updatePersonalcards(context);
 
     Fluttertoast.showToast(
-        msg: "Card uploaded!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Card uploaded!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
 
     Navigator.pop(context);
   }

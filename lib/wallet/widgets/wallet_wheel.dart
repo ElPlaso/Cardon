@@ -33,7 +33,7 @@ class WalletWheelState extends State<WalletWheel> {
               context,
               MaterialPageRoute(
                   builder: (context) => CardPage(
-                      card: context.read<Cards>().collectedcards[index])),
+                      card: context.read<Cards>().collectedcards[index],),),
             );
           }
         },

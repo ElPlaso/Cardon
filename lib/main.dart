@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 // * The App
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: '.env');
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,11 +26,16 @@ void main() async {
   ]);
 
   /// * Init global providers, that will be used throughout the app.
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => CardCreator()),
-    ChangeNotifierProvider(create: (_) => QueryProvider()),
-    ChangeNotifierProvider(create: (_) => Cards()),
-  ], child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CardCreator()),
+        ChangeNotifierProvider(create: (_) => QueryProvider()),
+        ChangeNotifierProvider(create: (_) => Cards()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -39,14 +44,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(primaryColor: Colors.blue),
-        // * On entry to the app. This Navigates the user to
-        // * - the evaluation component
-        initialRoute: '/eval',
-        routes: Navigate.routes,
-      ));
+        create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: title,
+          theme: ThemeData(primaryColor: Colors.blue),
+          // * On entry to the app. This Navigates the user to
+          // * - the evaluation component
+          initialRoute: '/eval',
+          routes: Navigate.routes,
+        ),
+      );
 }

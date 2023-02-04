@@ -29,7 +29,7 @@ class EditCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10),
               child: TappedTextButton(
                 iconData: Icons.chevron_left,
-                text: "Cancel",
+                text: 'Cancel',
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -43,7 +43,7 @@ class EditCard extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 15),
                 child: TappedTextButton(
                   iconData: Icons.done,
-                  text: "Done",
+                  text: 'Done',
                   onTap: () {
                     _updateCard(context);
                   },
@@ -61,17 +61,19 @@ class EditCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 25, right: 20, bottom: 10),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Edit.",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Edit.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
                 CardForm(card: card),
               ],
@@ -128,18 +130,19 @@ class EditCard extends StatelessWidget {
       'card_id': cardId,
       'card': jsonEncode(bCard),
       'owner': context.read<QueryProvider>().userID,
-    }).onError((error, stackTrace) => ("$error + $stackTrace =========== "));
+    }).onError((error, stackTrace) => ('$error + $stackTrace =========== '));
     // ! is this how we can exit the create page flutterly?
 
     await context.read<QueryProvider>().updatePersonalcards(context);
     Fluttertoast.showToast(
-        msg: "Card updated!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Card updated!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     Navigator.pop(context);
     Navigator.pop(context);
     Navigator.push(

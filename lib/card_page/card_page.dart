@@ -43,7 +43,7 @@ class _CardPageState extends State<CardPage> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 15),
               child: TappedTextButton(
-                text: "Done",
+                text: 'Done',
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -54,7 +54,7 @@ class _CardPageState extends State<CardPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: TappedTextButton(
-                  text: "",
+                  text: '',
                   onTap: () {},
                   iconData: Icons.pending,
                 ),
@@ -66,55 +66,64 @@ class _CardPageState extends State<CardPage> {
             height: MediaQuery.of(context).size.height,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Column(children: [
-                    SizedBox(
-                      height: 325,
-                      child: Card(
-                        color: CardView.themes[card.theme]?.background,
-                        margin: const EdgeInsets.all(15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        elevation: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(top: 15),
-                              child: WidgetsToImage(
-                                controller: controller,
-                                child: CardView(
-                                  card: widget.card,
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 325,
+                        child: Card(
+                          color: CardView.themes[card.theme]?.background,
+                          margin: const EdgeInsets.all(15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 10,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(top: 15),
+                                child: WidgetsToImage(
+                                  controller: controller,
+                                  child: CardView(
+                                    card: widget.card,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 30),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Scans: ${card.scancount}',
+                              const SizedBox(height: 30),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Scans: ${card.scancount}',
                                     style: TextStyle(
-                                        color: CardView
-                                            .themes[card.theme]?.foreground)),
-                                const SizedBox(
-                                  width: 50,
-                                  height: 1,
-                                ),
-                                Text('Refreshes: ${card.refreshcount}',
+                                      color: CardView
+                                          .themes[card.theme]?.foreground,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 50,
+                                    height: 1,
+                                  ),
+                                  Text(
+                                    'Refreshes: ${card.refreshcount}',
                                     style: TextStyle(
-                                        color: CardView
-                                            .themes[card.theme]?.foreground))
-                              ],
-                            ),
-                          ],
+                                      color: CardView
+                                          .themes[card.theme]?.foreground,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Card(
@@ -124,7 +133,10 @@ class _CardPageState extends State<CardPage> {
                       elevation: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 15, right: 15, bottom: 15),
+                          left: 15,
+                          right: 15,
+                          bottom: 15,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -172,17 +184,18 @@ class _CardPageState extends State<CardPage> {
         .collection('Users')
         .doc(context.read<QueryProvider>().userID)
         .update({
-      "wallet": FieldValue.arrayRemove([card.id])
+      'wallet': FieldValue.arrayRemove([card.id])
     });
     await context.read<QueryProvider>().updateWallet(context);
     Fluttertoast.showToast(
-        msg: "Card removed!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Card removed!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     Navigator.pop(context);
   }
 
@@ -194,29 +207,34 @@ class _CardPageState extends State<CardPage> {
 
     // if widget was succesfully turned into image bytes, save image to phone gallery.
     if (bytes != null) {
-      ImageGallerySaver.saveImage(bytes,
-          quality: 60, name: "file_name${DateTime.now()}");
+      ImageGallerySaver.saveImage(
+        bytes,
+        quality: 60,
+        name: 'file_name${DateTime.now()}',
+      );
     }
 
     // Inform user that the image has been saved.
     Fluttertoast.showToast(
-        msg: "Image saved!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Image saved!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   _showQRCode() {
     showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
         ),
-        builder: (context) => Center(child: QRImageGen(card: card)));
+      ),
+      builder: (context) => Center(child: QRImageGen(card: card)),
+    );
   }
 }

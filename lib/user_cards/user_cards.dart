@@ -21,13 +21,13 @@ class UserCards extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.grey[50],
             title: const Text(
-              "Your Cards.",
+              'Your Cards.',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             leading: Padding(
               padding: const EdgeInsets.only(left: 13),
               child: TappedTextButton(
-                text: "",
+                text: '',
                 iconData: Icons.chevron_left,
                 onTap: () {
                   Navigator.pop(context);
@@ -46,9 +46,9 @@ class UserCards extends StatelessWidget {
                         size: 50,
                       ),
                       Text(
-                        "No Cards",
+                        'No Cards',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30, fontWeight: FontWeight.bold,),
                       ),
                     ],
                   ),
@@ -62,7 +62,7 @@ class UserCards extends StatelessWidget {
                     radius: const Radius.circular(20),
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
+                          parent: AlwaysScrollableScrollPhysics(),),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [SizedBox(height: 20), CardStack()],

@@ -34,33 +34,33 @@ class BusinessCard {
   // card. Usage:
   // BusinessCard card = BusinessCard.fromJson(jsonDecode(JSON_String));
   BusinessCard.fromJson(Map<String, dynamic> json)
-      : id = json["id"],
-        theme = json["theme"],
-        cellphone = json["cellphone"],
-        company = json["company"],
-        companyaddress = json["companyaddress"],
-        companyphone = json["companyphone"],
-        email = json["email"],
-        name = json["name"],
-        position = json["position"],
-        website = json["website"],
-        scancount = json["scancount"],
-        refreshcount = json["refreshcount"];
+      : id = json['id'],
+        theme = json['theme'],
+        cellphone = json['cellphone'],
+        company = json['company'],
+        companyaddress = json['companyaddress'],
+        companyphone = json['companyphone'],
+        email = json['email'],
+        name = json['name'],
+        position = json['position'],
+        website = json['website'],
+        scancount = json['scancount'],
+        refreshcount = json['refreshcount'];
 
   // Used to encode a BusinessCard for serialisation. Called by jsonEncode
   // to return an encoded JSON string.
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "theme": theme,
-        "cellphone": cellphone,
-        "company": company,
-        "companyaddress": companyaddress,
-        "companyphone": companyphone,
-        "email": email,
-        "name": name,
-        "position": position,
-        "website": website,
-        "scancount": scancount,
-        "refreshcount": refreshcount,
+        'id': id,
+        'theme': theme,
+        'cellphone': cellphone,
+        'company': company,
+        'companyaddress': companyaddress,
+        'companyphone': companyphone,
+        'email': email,
+        'name': name,
+        'position': position,
+        'website': website,
+        'scancount': scancount,
+        'refreshcount': refreshcount,
       };
 }

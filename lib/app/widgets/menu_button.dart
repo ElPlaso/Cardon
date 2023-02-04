@@ -36,19 +36,20 @@ class MenuButton extends StatelessWidget {
             label: Align(
               alignment: Alignment.centerLeft,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      text,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                      ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.blue,
                     ),
-                    const Spacer(),
-                    Text(count.toString()),
-                    const Icon(Icons.chevron_right),
-                  ]),
+                  ),
+                  const Spacer(),
+                  Text(count.toString()),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
             ),
             icon: icon,
           ),

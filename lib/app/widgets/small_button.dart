@@ -25,8 +25,11 @@ class SmallButton extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: OutlinedButton.icon(
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0))),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
               ),
               onPressed: onClicked,
               label: Align(

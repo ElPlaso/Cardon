@@ -42,7 +42,7 @@ class UserCardPageState extends State<UserCardPage> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 13),
               child: TappedTextButton(
-                text: "Done",
+                text: 'Done',
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -53,7 +53,7 @@ class UserCardPageState extends State<UserCardPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: TappedTextButton(
-                  text: "",
+                  text: '',
                   onTap: () {},
                   iconData: Icons.pending,
                 ),
@@ -69,7 +69,8 @@ class UserCardPageState extends State<UserCardPage> {
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 child: Column(
                   children: [
                     SizedBox(
@@ -97,20 +98,24 @@ class UserCardPageState extends State<UserCardPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Scans: ${widget.card.scancount}',
-                                    style: TextStyle(
-                                        color: CardView
-                                            .themes[widget.card.theme]
-                                            ?.foreground)),
+                                Text(
+                                  'Scans: ${widget.card.scancount}',
+                                  style: TextStyle(
+                                    color: CardView
+                                        .themes[widget.card.theme]?.foreground,
+                                  ),
+                                ),
                                 const SizedBox(
                                   width: 50,
                                   height: 1,
                                 ),
-                                Text('Refreshes: ${widget.card.refreshcount}',
-                                    style: TextStyle(
-                                        color: CardView
-                                            .themes[widget.card.theme]
-                                            ?.foreground))
+                                Text(
+                                  'Refreshes: ${widget.card.refreshcount}',
+                                  style: TextStyle(
+                                    color: CardView
+                                        .themes[widget.card.theme]?.foreground,
+                                  ),
+                                )
                               ],
                             ),
                           ],
@@ -126,32 +131,36 @@ class UserCardPageState extends State<UserCardPage> {
                         elevation: 5,
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              left: 15, right: 15, bottom: 15),
+                            left: 15,
+                            right: 15,
+                            bottom: 15,
+                          ),
                           child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                SmallButton(
-                                  text: 'Edit Card',
-                                  onClicked: () {
-                                    _prepareEditCard();
-                                  },
-                                  icon: const Icon(Icons.edit),
-                                ),
-                                SmallButton(
-                                  text: 'Add to photos',
-                                  onClicked: () {
-                                    _saveCardAsImage();
-                                  },
-                                  icon: const Icon(Icons.collections),
-                                ),
-                                SmallButton(
-                                  text: 'Display QR Code',
-                                  onClicked: () {
-                                    _showQRCode(context);
-                                  },
-                                  icon: const Icon(Icons.qr_code),
-                                )
-                              ]),
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SmallButton(
+                                text: 'Edit Card',
+                                onClicked: () {
+                                  _prepareEditCard();
+                                },
+                                icon: const Icon(Icons.edit),
+                              ),
+                              SmallButton(
+                                text: 'Add to photos',
+                                onClicked: () {
+                                  _saveCardAsImage();
+                                },
+                                icon: const Icon(Icons.collections),
+                              ),
+                              SmallButton(
+                                text: 'Display QR Code',
+                                onClicked: () {
+                                  _showQRCode(context);
+                                },
+                                icon: const Icon(Icons.qr_code),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -175,13 +184,14 @@ class UserCardPageState extends State<UserCardPage> {
 
   _showQRCode(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
         ),
-        builder: (context) => Center(child: QRImageGen(card: widget.card)));
+      ),
+      builder: (context) => Center(child: QRImageGen(card: widget.card)),
+    );
   }
 
   _refreshPage() async {
@@ -194,17 +204,21 @@ class UserCardPageState extends State<UserCardPage> {
       this.bytes = bytes;
     });
     if (bytes != null) {
-      ImageGallerySaver.saveImage(bytes,
-          quality: 60, name: "file_name${DateTime.now()}");
+      ImageGallerySaver.saveImage(
+        bytes,
+        quality: 60,
+        name: 'file_name${DateTime.now()}',
+      );
     }
     Fluttertoast.showToast(
-        msg: "Image saved!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Image saved!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   _prepareEditCard() {
@@ -257,13 +271,14 @@ class UserCardPageState extends State<UserCardPage> {
 
     /// * Popup to notify user of change.
     Fluttertoast.showToast(
-        msg: "Card deleted!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: 'Card deleted!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     Navigator.pop(context);
   }
 }
