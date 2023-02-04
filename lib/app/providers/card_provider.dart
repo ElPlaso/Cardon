@@ -44,9 +44,9 @@ class Cards with ChangeNotifier {
   // Delete multiple business cards from the personal or collected list.
   void deleteAll(List<BusinessCard> del, bool personal, String uid) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
-    del.forEach((element) {
+    for (var element in del) {
       list.remove(element);
-    });
+    }
     notifyListeners();
   }
 

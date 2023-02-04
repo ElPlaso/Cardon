@@ -25,16 +25,12 @@ class UserCardPage extends StatefulWidget {
   const UserCardPage({Key? key, required this.card}) : super(key: key);
 
   @override
-  State<UserCardPage> createState() => UserCardPageState(card: card);
+  State<UserCardPage> createState() => UserCardPageState();
 }
 
 class UserCardPageState extends State<UserCardPage> {
   final WidgetsToImageController controller = WidgetsToImageController();
   Uint8List? bytes;
-
-  final BusinessCard card;
-
-  UserCardPageState({required this.card});
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -79,7 +75,7 @@ class UserCardPageState extends State<UserCardPage> {
                     SizedBox(
                       height: 325,
                       child: Card(
-                        color: CardView.themes[card.theme]?.background,
+                        color: CardView.themes[widget.card.theme]?.background,
                         margin: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -101,18 +97,20 @@ class UserCardPageState extends State<UserCardPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Scans: ${card.scancount}',
+                                Text('Scans: ${widget.card.scancount}',
                                     style: TextStyle(
                                         color: CardView
-                                            .themes[card.theme]?.foreground)),
+                                            .themes[widget.card.theme]
+                                            ?.foreground)),
                                 const SizedBox(
                                   width: 50,
                                   height: 1,
                                 ),
-                                Text('Refreshes: ${card.refreshcount}',
+                                Text('Refreshes: ${widget.card.refreshcount}',
                                     style: TextStyle(
                                         color: CardView
-                                            .themes[card.theme]?.foreground))
+                                            .themes[widget.card.theme]
+                                            ?.foreground))
                               ],
                             ),
                           ],
@@ -183,7 +181,7 @@ class UserCardPageState extends State<UserCardPage> {
             top: Radius.circular(20),
           ),
         ),
-        builder: (context) => Center(child: QRImageGen(card: card)));
+        builder: (context) => Center(child: QRImageGen(card: widget.card)));
   }
 
   _refreshPage() async {
@@ -210,46 +208,49 @@ class UserCardPageState extends State<UserCardPage> {
   }
 
   _prepareEditCard() {
-    context.read<CardCreator>().setName(card.name);
-    context.read<CardCreator>().setPostion(card.position);
-    context.read<CardCreator>().setEmail(card.email);
-    context.read<CardCreator>().setCellphone(card.cellphone);
-    context.read<CardCreator>().setWebsite(card.website);
-    context.read<CardCreator>().setCompany(card.company);
-    context.read<CardCreator>().setCompanyAddress(card.companyaddress);
-    context.read<CardCreator>().setCompanyPhone(card.companyphone);
+    context.read<CardCreator>().setName(widget.card.name);
+    context.read<CardCreator>().setPostion(widget.card.position);
+    context.read<CardCreator>().setEmail(widget.card.email);
+    context.read<CardCreator>().setCellphone(widget.card.cellphone);
+    context.read<CardCreator>().setWebsite(widget.card.website);
+    context.read<CardCreator>().setCompany(widget.card.company);
+    context.read<CardCreator>().setCompanyAddress(widget.card.companyaddress);
+    context.read<CardCreator>().setCompanyPhone(widget.card.companyphone);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EditCard(card: card)),
+      MaterialPageRoute(builder: (context) => EditCard(card: widget.card)),
     );
   }
 
   _deleteCard(BuildContext context) async {
     // delete card from db
-    await FirebaseFirestore.instance.collection('Cards').doc(card.id).delete();
+    await FirebaseFirestore.instance
+        .collection('Cards')
+        .doc(widget.card.id)
+        .delete();
     // delete card from owners' personal collection
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(context.read<QueryProvider>().getUserID)
         .update({
-      'personalcards': FieldValue.arrayRemove([card.id])
+      'personalcards': FieldValue.arrayRemove([widget.card.id])
     });
 
     // ! delete every other reference to the card
     await FirebaseFirestore.instance
         .collection('Users')
-        .where('wallet', arrayContains: card.id)
+        .where('wallet', arrayContains: widget.card.id)
         .get()
         .then((value) {
       for (var element in value.docs) {
         element.reference.update({
-          'wallet': FieldValue.arrayRemove([card.id])
+          'wallet': FieldValue.arrayRemove([widget.card.id])
         });
       }
     });
 
     /// * Deletes seleted card from local storage
-    context.read<Cards>().delete(card, true);
+    context.read<Cards>().delete(widget.card, true);
 
     /// * refreshes the local storage
     await context.read<QueryProvider>().updatePersonalcards(context);

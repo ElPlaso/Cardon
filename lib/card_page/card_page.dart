@@ -151,7 +151,7 @@ class _CardPageState extends State<CardPage> {
                             SmallButton(
                               text: 'Discard',
                               onClicked: () {
-                                _showQRCode();
+                                _discard(context);
                               },
                               icon: const Icon(Icons.remove, size: 25),
                             ),
