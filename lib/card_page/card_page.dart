@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Page that allows user to view a card in their wallet.
 ///
@@ -174,12 +173,9 @@ class _CardPageState extends State<CardPage> {
       );
 
   _discard(BuildContext context) async {
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(context.read<QueryProvider>().userID)
-        .update({
-      'wallet': FieldValue.arrayRemove([widget.card.id])
-    });
+    await context
+        .read<QueryProvider>()
+        .removeFromWallet(context, widget.card.id);
     await context.read<QueryProvider>().updateWallet(context);
     Fluttertoast.showToast(
       msg: 'Card removed!',

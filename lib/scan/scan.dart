@@ -37,36 +37,12 @@ class _ScanState extends State<Scan> {
                     // ! incr scancount
 
                     try {
-                      await FirebaseFirestore.instance
-                          .collection('Cards')
-                          .doc(cardMap['id'])
-                          .update({'scancount': FieldValue.increment(1)});
-                      // ! append new card to current users' scanned cards
-                      await FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(context.read<QueryProvider>().userID)
-                          .get()
-                          .then(
-                            (document) => {
-                              if (!document.exists)
-                                {
-                                  FirebaseFirestore.instance
-                                      .collection('Users')
-                                      .doc(
-                                        context.read<QueryProvider>().userID,
-                                      )
-                                      .set({'card-id': 0, 'wallet': []})
-                                }
-                            },
-                          );
-                      await FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(context.read<QueryProvider>().getUserID)
-                          .update({
-                        'wallet': FieldValue.arrayUnion([cardMap['id']])
-                      });
+                      await context
+                          .read<QueryProvider>()
+                          .addToWallet(context, cardMap['id']);
 
                       await context.read<QueryProvider>().updateWallet(context);
+
                       Fluttertoast.showToast(
                         msg: 'Card scanned!',
                         toastLength: Toast.LENGTH_SHORT,

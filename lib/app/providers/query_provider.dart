@@ -75,4 +75,71 @@ class QueryProvider with ChangeNotifier {
       }
     });
   }
+
+  /// Adds a card to a user's wallet if it exists
+  Future<void> addToWallet(BuildContext context, String id) async {
+    await FirebaseFirestore.instance
+        .collection('Cards')
+        .doc(id)
+        .update({'scancount': FieldValue.increment(1)});
+    // ! append new card to current users' scanned cards
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().userID)
+        .get()
+        .then(
+          (document) => {
+            if (!document.exists)
+              {
+                FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(
+                      context.read<QueryProvider>().userID,
+                    )
+                    .set({'card-id': 0, 'wallet': []})
+              }
+          },
+        );
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().getUserID)
+        .update({
+      'wallet': FieldValue.arrayUnion([id])
+    });
+  }
+
+  /// Removes a card from the user's Wallet / collected cards.
+  Future<void> removeFromWallet(BuildContext context, String id) async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().userID)
+        .update({
+      'wallet': FieldValue.arrayRemove([id])
+    });
+  }
+
+  Future<void> deleteCard(BuildContext context, String id) async {
+    // Delete card from db.
+    await FirebaseFirestore.instance.collection('Cards').doc(id).delete();
+    // Delete card from owners' personal collection.
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(context.read<QueryProvider>().getUserID)
+        .update({
+      'personalcards': FieldValue.arrayRemove([id])
+    });
+
+    // Delete every other reference to the card.
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .where('wallet', arrayContains: id)
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        element.reference.update({
+          'wallet': FieldValue.arrayRemove([id])
+        });
+      }
+    });
+  }
 }
