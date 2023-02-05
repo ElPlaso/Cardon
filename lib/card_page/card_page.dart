@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:cardonapp/app/models/business_card.dart';
 import 'package:cardonapp/app/providers/query_provider.dart';
 import 'package:cardonapp/app/widgets/card_view.dart';
@@ -23,156 +22,174 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
-  final WidgetsToImageController controller = WidgetsToImageController();
-  Uint8List? bytes;
+  final WidgetsToImageController _controller = WidgetsToImageController();
+
+  bool _discarding = false;
 
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            scrolledUnderElevation: 5,
-            elevation: 0,
-            backgroundColor: Colors.grey[50],
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: TappedTextButton(
-                text: 'Done',
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            leadingWidth: 120,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: TappedTextButton(
-                  text: '',
-                  onTap: () {},
-                  iconData: Icons.pending,
+        child: _discarding
+            ? const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(
+                    semanticsLabel: 'Uploading',
+                  ),
                 ),
-              ),
-            ],
-            foregroundColor: Theme.of(context).colorScheme.primary,
-          ),
-          body: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 325,
-                        child: Card(
-                          color: CardView.themes[widget.card.theme]?.background,
-                          margin: const EdgeInsets.all(15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          elevation: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(top: 15),
-                                child: WidgetsToImage(
-                                  controller: controller,
-                                  child: CardView(
-                                    card: widget.card,
-                                  ),
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  scrolledUnderElevation: 5,
+                  elevation: 0,
+                  backgroundColor: Colors.grey[50],
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: TappedTextButton(
+                      text: 'Done',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  leadingWidth: 120,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: TappedTextButton(
+                        text: '',
+                        onTap: () {},
+                        iconData: Icons.pending,
+                      ),
+                    ),
+                  ],
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                ),
+                body: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 325,
+                              child: Card(
+                                color: CardView
+                                    .themes[widget.card.theme]?.background,
+                                margin: const EdgeInsets.all(15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 10,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 15),
+                                      child: WidgetsToImage(
+                                        controller: _controller,
+                                        child: CardView(
+                                          card: widget.card,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 30),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Scans: ${widget.card.scancount}',
+                                          style: TextStyle(
+                                            color: CardView
+                                                .themes[widget.card.theme]
+                                                ?.foreground,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 50,
+                                          height: 1,
+                                        ),
+                                        Text(
+                                          'Refreshes: ${widget.card.refreshcount}',
+                                          style: TextStyle(
+                                            color: CardView
+                                                .themes[widget.card.theme]
+                                                ?.foreground,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 30),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Scans: ${widget.card.scancount}',
-                                    style: TextStyle(
-                                      color: CardView.themes[widget.card.theme]
-                                          ?.foreground,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 50,
-                                    height: 1,
-                                  ),
-                                  Text(
-                                    'Refreshes: ${widget.card.refreshcount}',
-                                    style: TextStyle(
-                                      color: CardView.themes[widget.card.theme]
-                                          ?.foreground,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          bottom: 15,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Saves a image of the QRCard to the users android gallery.
-                            SmallButton(
-                              text: 'Add to Photos',
-
-                              // Save the widget as image bytes.
-                              onClicked: () {
-                                _saveCardAsImage();
-                              },
-                              icon: const Icon(Icons.collections, size: 25),
-                            ),
-
-                            // Shows the QR code of the selected QRCard.
-                            SmallButton(
-                              text: 'Display QR Code',
-                              onClicked: () {
-                                _showQRCode();
-                              },
-                              icon: const Icon(Icons.qr_code, size: 25),
-                            ),
-
-                            SmallButton(
-                              text: 'Discard',
-                              onClicked: () {
-                                _discard(context);
-                              },
-                              icon: const Icon(Icons.remove, size: 25),
                             ),
                           ],
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 15,
+                                right: 15,
+                                bottom: 15,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  // Saves a image of the QRCard to the users android gallery.
+                                  SmallButton(
+                                    text: 'Add to Photos',
+
+                                    // Save the widget as image bytes.
+                                    onClicked: () {
+                                      _saveCardAsImage();
+                                    },
+                                    icon:
+                                        const Icon(Icons.collections, size: 25),
+                                  ),
+
+                                  // Shows the QR code of the selected QRCard.
+                                  SmallButton(
+                                    text: 'Display QR Code',
+                                    onClicked: () {
+                                      _showQRCode();
+                                    },
+                                    icon: const Icon(Icons.qr_code, size: 25),
+                                  ),
+
+                                  SmallButton(
+                                    text: 'Discard',
+                                    onClicked: () {
+                                      _discard(context);
+                                    },
+                                    icon: const Icon(Icons.remove, size: 25),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
       );
 
   _discard(BuildContext context) async {
+    setState(() {
+      _discarding = true;
+    });
+
     await context
         .read<QueryProvider>()
         .removeFromWallet(widget.card.id)
@@ -195,10 +212,7 @@ class _CardPageState extends State<CardPage> {
   }
 
   _saveCardAsImage() async {
-    final bytes = await controller.capture();
-    setState(() {
-      this.bytes = bytes;
-    });
+    final bytes = await _controller.capture();
 
     // If the widget was succesfully turned into image bytes, save image to phone gallery.
     if (bytes != null) {
