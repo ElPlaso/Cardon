@@ -8,7 +8,6 @@ import 'package:cardonapp/app/widgets/small_button.dart';
 import 'package:cardonapp/app/widgets/tapped_text_button.dart';
 import 'package:cardonapp/card_page/widgets/qr_image_gen.dart';
 import 'package:cardonapp/upload_card/edit_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
@@ -235,31 +234,7 @@ class UserCardPageState extends State<UserCardPage> {
   }
 
   _deleteCard(BuildContext context) async {
-    // Delete card from db.
-    await FirebaseFirestore.instance
-        .collection('Cards')
-        .doc(widget.card.id)
-        .delete();
-    // Delete card from owners' personal collection.
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(context.read<QueryProvider>().getUserID)
-        .update({
-      'personalcards': FieldValue.arrayRemove([widget.card.id])
-    });
-
-    // Delete every other reference to the card.
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .where('wallet', arrayContains: widget.card.id)
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        element.reference.update({
-          'wallet': FieldValue.arrayRemove([widget.card.id])
-        });
-      }
-    });
+    await context.read<QueryProvider>().deleteCard(context, widget.card.id);
 
     // Delete seleted card from local storage.
     context.read<CardProvider>().delete(widget.card, true);
