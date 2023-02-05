@@ -12,82 +12,101 @@ import 'package:provider/provider.dart';
 /// Page that allows users to update an existing card of theirs.
 ///
 /// It also allows users to preview changes they've made in the form of a [CardView].
-class EditCard extends StatelessWidget {
+class EditCard extends StatefulWidget {
   final BusinessCard card;
 
   const EditCard({super.key, required this.card});
+
+  @override
+  State<StatefulWidget> createState() => EditCardState();
+}
+
+class EditCardState extends State<EditCard> {
+  bool _updating = false;
+
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            scrolledUnderElevation: 5,
-            elevation: 0,
-            backgroundColor: Colors.grey[50],
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: TappedTextButton(
-                iconData: Icons.chevron_left,
-                text: 'Cancel',
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            leadingWidth: 120,
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: TappedTextButton(
-                  iconData: Icons.done,
-                  text: 'Done',
-                  onTap: () {
-                    _updateCard(context);
-                  },
-                  textDirection: TextDirection.rtl,
+        child: _updating
+            ? const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(
+                    semanticsLabel: 'Uploading',
+                  ),
                 ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 25, right: 20, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Edit.',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  scrolledUnderElevation: 5,
+                  elevation: 0,
+                  backgroundColor: Colors.grey[50],
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: TappedTextButton(
+                      iconData: Icons.chevron_left,
+                      text: 'Cancel',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      textDirection: TextDirection.ltr,
+                    ),
+                  ),
+                  leadingWidth: 120,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: TappedTextButton(
+                        iconData: Icons.done,
+                        text: 'Done',
+                        onTap: () {
+                          _updateCard(context);
+                        },
+                        textDirection: TextDirection.rtl,
+                      ),
+                    ),
+                  ],
+                ),
+                body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 25,
+                          right: 20,
+                          bottom: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Edit.',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      CardForm(card: widget.card),
                     ],
                   ),
                 ),
-                CardForm(card: card),
-              ],
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            // Floating action button on Scaffold.
-            onPressed: () {
-              _previewCard(context);
-            },
-            child: const Icon(
-              Icons.remove_red_eye,
-              size: 35,
-            ),
-          ),
-        ),
+                floatingActionButton: FloatingActionButton(
+                  // Floating action button on Scaffold.
+                  onPressed: () {
+                    _previewCard(context);
+                  },
+                  child: const Icon(
+                    Icons.remove_red_eye,
+                    size: 35,
+                  ),
+                ),
+              ),
       );
 
   void _previewCard(context) {
@@ -101,14 +120,19 @@ class EditCard extends StatelessWidget {
       ),
       builder: (context) => CardView(
         // * Create the mock BusinessCard from the providers
-        card: context.read<CardCreator>().getBusinessCard(card.id),
+        card: context.read<CardCreator>().getBusinessCard(widget.card.id),
       ),
     );
   }
 
   void _updateCard(BuildContext context) async {
     WidgetsFlutterBinding.ensureInitialized();
-    var bCard = context.read<CardCreator>().getBusinessCard(card.id);
+
+    setState(() {
+      _updating = true;
+    });
+
+    var bCard = context.read<CardCreator>().getBusinessCard(widget.card.id);
     await context
         .read<QueryProvider>()
         .updateCard(context, bCard)
