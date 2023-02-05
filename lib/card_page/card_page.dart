@@ -175,8 +175,14 @@ class _CardPageState extends State<CardPage> {
   _discard(BuildContext context) async {
     await context
         .read<QueryProvider>()
-        .removeFromWallet(context, widget.card.id);
-    await context.read<QueryProvider>().updateWallet(context);
+        .removeFromWallet(widget.card.id)
+        .then(
+          (_) => context.read<QueryProvider>().updateWallet(context),
+        )
+        .then(
+          (_) => Navigator.pop(context),
+        );
+
     Fluttertoast.showToast(
       msg: 'Card removed!',
       toastLength: Toast.LENGTH_SHORT,
@@ -186,7 +192,6 @@ class _CardPageState extends State<CardPage> {
       textColor: Colors.white,
       fontSize: 16.0,
     );
-    Navigator.pop(context);
   }
 
   _saveCardAsImage() async {

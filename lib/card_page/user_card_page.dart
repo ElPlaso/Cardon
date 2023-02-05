@@ -234,13 +234,14 @@ class UserCardPageState extends State<UserCardPage> {
   }
 
   _deleteCard(BuildContext context) async {
-    await context.read<QueryProvider>().deleteCard(context, widget.card.id);
-
-    // Delete seleted card from local storage.
-    context.read<CardProvider>().delete(widget.card, true);
-
-    // Refresh the local storage.
-    await context.read<QueryProvider>().updatePersonalcards(context);
+    await context
+        .read<QueryProvider>()
+        .deleteCard(widget.card.id)
+        .then(
+          (_) => // Delete seleted card from local storage.
+              context.read<CardProvider>().delete(widget.card, true),
+        )
+        .then((_) => Navigator.pop(context));
 
     // Notify user of change.
     Fluttertoast.showToast(
@@ -252,6 +253,5 @@ class UserCardPageState extends State<UserCardPage> {
       textColor: Colors.white,
       fontSize: 16.0,
     );
-    Navigator.pop(context);
   }
 }

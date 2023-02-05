@@ -39,9 +39,15 @@ class _ScanState extends State<Scan> {
                     try {
                       await context
                           .read<QueryProvider>()
-                          .addToWallet(context, cardMap['id']);
-
-                      await context.read<QueryProvider>().updateWallet(context);
+                          .addToWallet(cardMap['id'])
+                          .then(
+                            (_) => context
+                                .read<QueryProvider>()
+                                .updateWallet(context),
+                          )
+                          .then(
+                            (_) => Navigator.pop(context),
+                          );
 
                       Fluttertoast.showToast(
                         msg: 'Card scanned!',
@@ -52,7 +58,6 @@ class _ScanState extends State<Scan> {
                         textColor: Colors.white,
                         fontSize: 16.0,
                       );
-                      Navigator.pop(context);
                     } on FirebaseException catch (_) {
                       showDialog(
                         context: context,
