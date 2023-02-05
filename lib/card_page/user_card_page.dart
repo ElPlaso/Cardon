@@ -55,16 +55,6 @@ class UserCardPageState extends State<UserCardPage> {
                     ),
                   ),
                   leadingWidth: 120,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: TappedTextButton(
-                        text: '',
-                        onTap: () {},
-                        iconData: Icons.pending,
-                      ),
-                    ),
-                  ],
                   foregroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 body: RefreshIndicator(
@@ -153,21 +143,21 @@ class UserCardPageState extends State<UserCardPage> {
                                       onClicked: () {
                                         _prepareEditCard();
                                       },
-                                      icon: const Icon(Icons.edit),
+                                      iconData: Icons.edit,
                                     ),
                                     SmallButton(
                                       text: 'Add to photos',
                                       onClicked: () {
                                         _saveCardAsImage();
                                       },
-                                      icon: const Icon(Icons.collections),
+                                      iconData: Icons.collections,
                                     ),
                                     SmallButton(
                                       text: 'Display QR Code',
                                       onClicked: () {
                                         _showQRCode(context);
                                       },
-                                      icon: const Icon(Icons.qr_code),
+                                      iconData: Icons.qr_code,
                                     )
                                   ],
                                 ),
@@ -181,7 +171,7 @@ class UserCardPageState extends State<UserCardPage> {
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    _deleteCard(context);
+                    _showDeleteWarning(context);
                   },
                   child: const Icon(
                     Icons.delete_forever,
@@ -266,6 +256,33 @@ class UserCardPageState extends State<UserCardPage> {
       backgroundColor: Colors.blue,
       textColor: Colors.white,
       fontSize: 16.0,
+    );
+  }
+
+  Future<void> _showDeleteWarning(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: const Text('Delete Card?'),
+        content: const Text(
+          'This will delete your card from the database which can\'t be undone. \n'
+          'Your card will be removed from other users\' wallets. \n\n'
+          'Are you sure you want to proceed?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              _deleteCard(context);
+            },
+            child: const Text('Delete'),
+          )
+        ],
+      ),
     );
   }
 }
