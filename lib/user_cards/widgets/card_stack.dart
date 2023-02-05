@@ -21,7 +21,7 @@ class CardStackState extends State<CardStack> {
   @override
   Widget build(BuildContext context) {
     final cardList = buildCardList(context);
-    final int numCards = context.watch<Cards>().personalcards.length;
+    final int numCards = context.watch<CardProvider>().personalcards.length;
     return SizedBox(
       height: cardHeight + (numCards) * 0.3 * cardHeight,
       width: MediaQuery.of(context).size.width,
@@ -44,7 +44,7 @@ class CardStackState extends State<CardStack> {
   static buildCardList(BuildContext context) {
     final double containerWidth = MediaQuery.of(context).size.width * 0.8;
 
-    return context.watch<Cards>().personalcards.map(
+    return context.watch<CardProvider>().personalcards.map(
       (card) {
         return CardModel(
           shadowColor: Colors.transparent,

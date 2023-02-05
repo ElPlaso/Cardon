@@ -24,16 +24,18 @@ class WalletWheelState extends State<WalletWheel> {
     return SizedBox(
       height: MediaQuery.of(context).size.height - 100,
       child: ClickableListWheelScrollView(
-        itemCount: context.read<Cards>().collectedcards.length,
+        itemCount: context.read<CardProvider>().collectedcards.length,
         // When a card in the list is tapped, go to CardPage for that card.
         onItemTapCallback: (index) {
           if (index >= 0 &&
-              index < context.read<Cards>().collectedcards.length) {
+              index < context.read<CardProvider>().collectedcards.length) {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CardPage(
-                      card: context.read<Cards>().collectedcards[index],),),
+                builder: (context) => CardPage(
+                  card: context.read<CardProvider>().collectedcards[index],
+                ),
+              ),
             );
           }
         },
@@ -49,7 +51,7 @@ class WalletWheelState extends State<WalletWheel> {
           onSelectedItemChanged: (index) => {},
           perspective: 0.001,
           // Get scanned cards and create a list of CardViews to be displayed.
-          children: context.watch<Cards>().collectedcards.map(
+          children: context.watch<CardProvider>().collectedcards.map(
             (card) {
               return Builder(
                 builder: (BuildContext context) {

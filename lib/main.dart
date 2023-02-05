@@ -2,7 +2,7 @@ import 'package:cardonapp/app/general/firebase_options.dart';
 import 'package:cardonapp/app/providers/card_provider.dart';
 import 'package:cardonapp/app/providers/cardcreator_provider.dart';
 import 'package:cardonapp/app/providers/query_provider.dart';
-import 'package:cardonapp/app/providers/google_sign_in.dart';
+import 'package:cardonapp/app/providers/google_sign_in_provider.dart';
 import 'package:cardonapp/app/general/navigate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => CardCreator()),
         ChangeNotifierProvider(create: (_) => QueryProvider()),
-        ChangeNotifierProvider(create: (_) => Cards()),
+        ChangeNotifierProvider(create: (_) => CardProvider()),
       ],
       child: const MyApp(),
     ),

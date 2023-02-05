@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// Read list with context.watch<Cards>().cards.
 /// Call other methods with context.read<Cards>().method()
 /// e.g. context.read<Cards>().add(card).
-class Cards with ChangeNotifier {
+class CardProvider with ChangeNotifier {
   /// Personal Card List.
   final List<BusinessCard> _personalcards = [];
 

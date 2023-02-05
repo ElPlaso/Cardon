@@ -21,8 +21,8 @@ class QueryProvider with ChangeNotifier {
   /// Collects the cards found in the users wallet and stores the most updated
   /// version locally in the Cards provider.
   Future<void> updateWallet(BuildContext context) async {
-    if (!context.read<Cards>().isEmpty(false)) {
-      context.read<Cards>().clear(false);
+    if (!context.read<CardProvider>().isEmpty(false)) {
+      context.read<CardProvider>().clear(false);
     }
     await FirebaseFirestore.instance
         .collection('Users')
@@ -41,7 +41,7 @@ class QueryProvider with ChangeNotifier {
 
                 card.refreshcount = value.get('refreshcount');
                 card.scancount = value.get('scancount');
-                context.read<Cards>().add(card, false);
+                context.read<CardProvider>().add(card, false);
 
                 if (element != userID) {
                   await FirebaseFirestore.instance
@@ -58,8 +58,8 @@ class QueryProvider with ChangeNotifier {
 
   /// Populates the Cards provider with all the users personally created cards.
   Future<void> updatePersonalcards(BuildContext context) async {
-    if (!context.read<Cards>().isEmpty(true)) {
-      context.read<Cards>().clear(true);
+    if (!context.read<CardProvider>().isEmpty(true)) {
+      context.read<CardProvider>().clear(true);
     }
     await FirebaseFirestore.instance
         .collection('Cards')
@@ -71,7 +71,7 @@ class QueryProvider with ChangeNotifier {
             BusinessCard.fromJson(jsonDecode(element.get('card')));
         card.refreshcount = element.get('refreshcount');
         card.scancount = element.get('scancount');
-        context.read<Cards>().add(card, true);
+        context.read<CardProvider>().add(card, true);
       }
     });
   }
