@@ -51,16 +51,6 @@ class _CardPageState extends State<CardPage> {
                     ),
                   ),
                   leadingWidth: 120,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: TappedTextButton(
-                        text: '',
-                        onTap: () {},
-                        iconData: Icons.pending,
-                      ),
-                    ),
-                  ],
                   foregroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 body: SizedBox(
@@ -153,8 +143,7 @@ class _CardPageState extends State<CardPage> {
                                     onClicked: () {
                                       _saveCardAsImage();
                                     },
-                                    icon:
-                                        const Icon(Icons.collections, size: 25),
+                                    iconData: Icons.collections,
                                   ),
 
                                   // Shows the QR code of the selected QRCard.
@@ -163,15 +152,15 @@ class _CardPageState extends State<CardPage> {
                                     onClicked: () {
                                       _showQRCode();
                                     },
-                                    icon: const Icon(Icons.qr_code, size: 25),
+                                    iconData: Icons.qr_code,
                                   ),
 
                                   SmallButton(
                                     text: 'Discard',
                                     onClicked: () {
-                                      _discard(context);
+                                      _showDiscardWarning(context);
                                     },
-                                    icon: const Icon(Icons.remove, size: 25),
+                                    iconData: Icons.remove,
                                   ),
                                 ],
                               ),
@@ -208,6 +197,32 @@ class _CardPageState extends State<CardPage> {
       backgroundColor: Colors.blue,
       textColor: Colors.white,
       fontSize: 16.0,
+    );
+  }
+
+  Future<void> _showDiscardWarning(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) => AlertDialog(
+        title: const Text('Discard?'),
+        content: const Text(
+          'This will remove this card from your wallet which can\'t be undone. \n\n'
+          'Are you sure you want to proceed?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              _discard(context);
+            },
+            child: const Text('Discard'),
+          )
+        ],
+      ),
     );
   }
 

@@ -8,13 +8,15 @@ import 'package:flutter/material.dart';
 class SmallButton extends StatelessWidget {
   final String text;
   final VoidCallback onClicked;
-  final Icon icon;
+  final IconData iconData;
+  final Color? color;
 
   const SmallButton({
+    Key? key,
     required this.text,
     required this.onClicked,
-    required this.icon,
-    Key? key,
+    this.color,
+    required this.iconData,
   }) : super(key: key);
 
   @override
@@ -38,13 +40,17 @@ class SmallButton extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   text,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
-                    color: Colors.blue,
+                    color: color ?? Colors.blue,
                   ),
                 ),
               ),
-              icon: icon,
+              icon: Icon(
+                iconData,
+                size: 25,
+                color: color,
+              ),
             ),
           ),
         ),
