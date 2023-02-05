@@ -1,3 +1,4 @@
+import 'package:cardonapp/app/providers/card_provider.dart';
 import 'package:cardonapp/scan/scan.dart';
 import 'package:cardonapp/app/widgets/tapped_text_button.dart';
 import 'package:flutter/material.dart';
@@ -36,19 +37,38 @@ class Wallet extends StatelessWidget {
               ),
               foregroundColor: Theme.of(context).colorScheme.primary,
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      _refreshPage(context);
-                    },
-                    child: const WalletWheel(),
+            body: context.watch<CardProvider>().isEmpty(false)
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.browser_not_supported,
+                          size: 50,
+                        ),
+                        Text(
+                          'No Cards',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        RefreshIndicator(
+                          onRefresh: () async {
+                            _refreshPage(context);
+                          },
+                          child: const WalletWheel(),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
             floatingActionButton: FloatingActionButton(
               // Floating action button on Scaffold.
               onPressed: () => Navigator.push(

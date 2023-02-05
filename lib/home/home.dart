@@ -7,7 +7,6 @@ import 'package:cardonapp/app/widgets/menu_button.dart';
 import 'package:cardonapp/user_cards/user_cards.dart';
 import 'package:cardonapp/wallet/wallet.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/card_provider.dart';
 import 'package:cardonapp/app/providers/query_provider.dart';
@@ -120,28 +119,12 @@ class HomeState extends State<Home> {
                                 .length,
                             icon: const Icon(Icons.wallet),
                             onClicked: () => {
-                              if (context.read<CardProvider>().isEmpty(false))
-                                {
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        'No saved cards. Scan a card to add it to your list!',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.blue,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  )
-                                }
-                              else
-                                {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Wallet(),
-                                    ),
-                                  )
-                                }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Wallet(),
+                                ),
+                              )
                             },
                             text: 'Wallet',
                           ),
