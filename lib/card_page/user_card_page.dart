@@ -262,7 +262,7 @@ class UserCardPageState extends State<UserCardPage> {
     });
 
     // Delete seleted card from local storage.
-    context.read<Cards>().delete(widget.card, true);
+    context.read<CardProvider>().delete(widget.card, true);
 
     // Refresh the local storage.
     await context.read<QueryProvider>().updatePersonalcards(context);

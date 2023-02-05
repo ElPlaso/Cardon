@@ -1,4 +1,4 @@
-import 'package:cardonapp/app/widgets/banner.dart';
+import 'package:cardonapp/app/widgets/home_banner.dart';
 import 'package:cardonapp/main.dart';
 import 'package:cardonapp/sign_in/widgets/sign_up_widget.dart';
 import 'package:flutter/material.dart';

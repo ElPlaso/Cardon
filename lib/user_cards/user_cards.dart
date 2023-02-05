@@ -34,7 +34,7 @@ class UserCards extends StatelessWidget {
             ),
             foregroundColor: Theme.of(context).colorScheme.primary,
           ),
-          body: context.watch<Cards>().isEmpty(true)
+          body: context.watch<CardProvider>().isEmpty(true)
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

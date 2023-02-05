@@ -1,4 +1,4 @@
-import 'package:cardonapp/app/widgets/banner.dart';
+import 'package:cardonapp/app/widgets/home_banner.dart';
 import 'package:cardonapp/home/widgets/carousel.dart';
 import 'package:cardonapp/main.dart';
 import 'package:cardonapp/scan/scan.dart';
@@ -79,7 +79,7 @@ class HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    context.watch<Cards>().isEmpty(true)
+                    context.watch<CardProvider>().isEmpty(true)
                         ? const HomeBanner(
                             subheading: 'Add a card to get started',
                           )
@@ -100,7 +100,10 @@ class HomeState extends State<Home> {
                       child: Column(
                         children: [
                           MenuButton(
-                            count: context.read<Cards>().personalcards.length,
+                            count: context
+                                .read<CardProvider>()
+                                .personalcards
+                                .length,
                             icon: const Icon(Icons.person),
                             onClicked: () => Navigator.push(
                               context,
@@ -111,10 +114,13 @@ class HomeState extends State<Home> {
                             text: 'Your cards',
                           ),
                           MenuButton(
-                            count: context.read<Cards>().collectedcards.length,
+                            count: context
+                                .read<CardProvider>()
+                                .collectedcards
+                                .length,
                             icon: const Icon(Icons.wallet),
                             onClicked: () => {
-                              if (context.read<Cards>().isEmpty(false))
+                              if (context.read<CardProvider>().isEmpty(false))
                                 {
                                   Fluttertoast.showToast(
                                     msg:

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cardonapp/app/providers/google_sign_in.dart';
+import 'package:cardonapp/app/providers/google_sign_in_provider.dart';
 
 /// Button that allows users to sign in via Google.
 class SignUpWidget extends StatelessWidget {
