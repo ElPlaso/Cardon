@@ -10,79 +10,102 @@ import 'package:cardonapp/app/providers/query_provider.dart';
 
 /// Page that allows user to preview and create cards.
 
-class AddCard extends StatelessWidget {
+class AddCard extends StatefulWidget {
   const AddCard({super.key});
+
+  @override
+  State<StatefulWidget> createState() => AddCardState();
+}
+
+class AddCardState extends State<AddCard> {
+  bool _uploading = false;
+
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            scrolledUnderElevation: 5,
-            elevation: 0,
-            backgroundColor: Colors.grey[50],
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: TappedTextButton(
-                iconData: Icons.chevron_left,
-                text: 'Cancel',
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            leadingWidth: 120,
-            foregroundColor: Theme.of(context).colorScheme.primary,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: TappedTextButton(
-                  iconData: Icons.ios_share_outlined,
-                  text: 'Done',
-                  onTap: () {
-                    _uploadCard(context);
-                  },
-                  textDirection: TextDirection.rtl,
+        child: _uploading
+            ? const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(
+                    semanticsLabel: 'Uploading',
+                  ),
                 ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Create.',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  scrolledUnderElevation: 5,
+                  elevation: 0,
+                  backgroundColor: Colors.grey[50],
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: TappedTextButton(
+                      iconData: Icons.chevron_left,
+                      text: 'Cancel',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      textDirection: TextDirection.ltr,
+                    ),
+                  ),
+                  leadingWidth: 120,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: TappedTextButton(
+                        iconData: Icons.ios_share_outlined,
+                        text: 'Done',
+                        onTap: _uploading
+                            ? null
+                            : () {
+                                _uploadCard(context);
+                              },
+                        textDirection: TextDirection.rtl,
+                      ),
+                    ),
+                  ],
+                ),
+                body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 10,
                         ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Create.',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      CardForm(
+                        card: BusinessCard(id: '', name: '', theme: 'nimbus'),
                       ),
                     ],
                   ),
                 ),
-                CardForm(card: BusinessCard(id: '', name: '', theme: 'nimbus')),
-              ],
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _previewCard(context);
-            },
-            child: const Icon(
-              Icons.remove_red_eye,
-              size: 35,
-            ),
-          ),
-        ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    _previewCard(context);
+                  },
+                  child: const Icon(
+                    Icons.remove_red_eye,
+                    size: 35,
+                  ),
+                ),
+              ),
       );
 
   void _previewCard(context) {
@@ -103,6 +126,10 @@ class AddCard extends StatelessWidget {
 
   void _uploadCard(BuildContext context) async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    setState(() {
+      _uploading = true;
+    });
 
     await context
         .read<QueryProvider>()
