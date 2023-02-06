@@ -1,5 +1,3 @@
-import 'package:cardonapp/app/widgets/home_banner.dart';
-import 'package:cardonapp/main.dart';
 import 'package:cardonapp/sign_in/widgets/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -17,16 +15,38 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) => Scaffold(
         key: scaffoldKey,
-        appBar: AppBar(
-          title: const Text(MyApp.title),
-          centerTitle: true,
-        ),
-        body: Center(
+        // backgroundColor: Theme.of(context).colorScheme.primary,
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.3, 1],
+              colors: [
+                Colors.blueAccent,
+                Colors.lightBlue,
+              ],
+            ),
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              HomeBanner(subheading: 'Sign in below :)'),
-              SignUpWidget()
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25, top: 100),
+                child: Text(
+                  'Welcome to \nCardon.',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              const SignUpWidget(),
+              const SizedBox(height: 50),
             ],
           ),
         ),
