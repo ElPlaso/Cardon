@@ -48,8 +48,11 @@ class HomeState extends State<Home> {
                 flexibleSpace: Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20, right: 20, top: 50),
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 30,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
