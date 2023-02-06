@@ -25,89 +25,87 @@ class EditCardState extends State<EditCard> {
   bool _updating = false;
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: _updating
-            ? const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(
-                    semanticsLabel: 'Uploading',
-                  ),
+  Widget build(BuildContext context) => _updating
+      ? const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              semanticsLabel: 'Uploading',
+            ),
+          ),
+        )
+      : Scaffold(
+          appBar: AppBar(
+            scrolledUnderElevation: 5,
+            elevation: 0,
+            backgroundColor: Colors.grey[50],
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: TappedTextButton(
+                iconData: Icons.chevron_left,
+                text: 'Cancel',
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                textDirection: TextDirection.ltr,
+              ),
+            ),
+            leadingWidth: 120,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: TappedTextButton(
+                  iconData: Icons.done,
+                  text: 'Done',
+                  onTap: () {
+                    _updateCard(context);
+                  },
+                  textDirection: TextDirection.rtl,
                 ),
-              )
-            : Scaffold(
-                appBar: AppBar(
-                  scrolledUnderElevation: 5,
-                  elevation: 0,
-                  backgroundColor: Colors.grey[50],
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: TappedTextButton(
-                      iconData: Icons.chevron_left,
-                      text: 'Cancel',
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      textDirection: TextDirection.ltr,
-                    ),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 25,
+                    right: 20,
+                    bottom: 10,
                   ),
-                  leadingWidth: 120,
-                  foregroundColor: Theme.of(context).colorScheme.primary,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: TappedTextButton(
-                        iconData: Icons.done,
-                        text: 'Done',
-                        onTap: () {
-                          _updateCard(context);
-                        },
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ),
-                  ],
-                ),
-                body: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 25,
-                          right: 20,
-                          bottom: 10,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Edit.',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Edit.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      CardForm(card: widget.card),
                     ],
                   ),
                 ),
-                floatingActionButton: FloatingActionButton(
-                  // Floating action button on Scaffold.
-                  onPressed: () {
-                    _previewCard(context);
-                  },
-                  child: const Icon(
-                    Icons.remove_red_eye,
-                    size: 35,
-                  ),
-                ),
-              ),
-      );
+                CardForm(card: widget.card),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            // Floating action button on Scaffold.
+            onPressed: () {
+              _previewCard(context);
+            },
+            child: const Icon(
+              Icons.remove_red_eye,
+              size: 35,
+            ),
+          ),
+        );
 
   void _previewCard(context) {
     showModalBottomSheet(

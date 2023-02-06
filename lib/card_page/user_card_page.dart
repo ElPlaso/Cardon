@@ -31,155 +31,149 @@ class UserCardPageState extends State<UserCardPage> {
   bool _deleting = false;
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: _deleting
-            ? const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(
-                    semanticsLabel: 'Uploading',
-                  ),
+  Widget build(BuildContext context) => _deleting
+      ? const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              semanticsLabel: 'Uploading',
+            ),
+          ),
+        )
+      : Scaffold(
+          appBar: AppBar(
+            scrolledUnderElevation: 5,
+            elevation: 0,
+            backgroundColor: Colors.grey[50],
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 13),
+              child: TappedTextButton(
+                text: 'Done',
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            leadingWidth: 120,
+            foregroundColor: Theme.of(context).colorScheme.primary,
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              _refreshPage();
+            },
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
-              )
-            : Scaffold(
-                appBar: AppBar(
-                  scrolledUnderElevation: 5,
-                  elevation: 0,
-                  backgroundColor: Colors.grey[50],
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: 13),
-                    child: TappedTextButton(
-                      text: 'Done',
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  leadingWidth: 120,
-                  foregroundColor: Theme.of(context).colorScheme.primary,
-                ),
-                body: RefreshIndicator(
-                  onRefresh: () async {
-                    _refreshPage();
-                  },
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics(),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 325,
-                            child: Card(
-                              color: CardView
-                                  .themes[widget.card.theme]?.background,
-                              margin: const EdgeInsets.all(15),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 10,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 15),
-                                    child: WidgetsToImage(
-                                      controller: _controller,
-                                      child: CardView(
-                                        card: widget.card,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 30),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Scans: ${widget.card.scancount}',
-                                        style: TextStyle(
-                                          color: CardView
-                                              .themes[widget.card.theme]
-                                              ?.foreground,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
-                                        height: 1,
-                                      ),
-                                      Text(
-                                        'Refreshes: ${widget.card.refreshcount}',
-                                        style: TextStyle(
-                                          color: CardView
-                                              .themes[widget.card.theme]
-                                              ?.foreground,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                  bottom: 15,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    SmallButton(
-                                      text: 'Edit Card',
-                                      onClicked: () {
-                                        _prepareEditCard();
-                                      },
-                                      iconData: Icons.edit,
-                                    ),
-                                    SmallButton(
-                                      text: 'Add to photos',
-                                      onClicked: () {
-                                        _saveCardAsImage();
-                                      },
-                                      iconData: Icons.collections,
-                                    ),
-                                    SmallButton(
-                                      text: 'Display QR Code',
-                                      onClicked: () {
-                                        _showQRCode(context);
-                                      },
-                                      iconData: Icons.qr_code,
-                                    )
-                                  ],
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 325,
+                      child: Card(
+                        color: CardView.themes[widget.card.theme]?.background,
+                        margin: const EdgeInsets.all(15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.only(top: 15),
+                              child: WidgetsToImage(
+                                controller: _controller,
+                                child: CardView(
+                                  card: widget.card,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Scans: ${widget.card.scancount}',
+                                  style: TextStyle(
+                                    color: CardView
+                                        .themes[widget.card.theme]?.foreground,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 50,
+                                  height: 1,
+                                ),
+                                Text(
+                                  'Refreshes: ${widget.card.refreshcount}',
+                                  style: TextStyle(
+                                    color: CardView
+                                        .themes[widget.card.theme]?.foreground,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    _showDeleteWarning(context);
-                  },
-                  child: const Icon(
-                    Icons.delete_forever,
-                    size: 35,
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                            right: 15,
+                            bottom: 15,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SmallButton(
+                                text: 'Edit Card',
+                                onClicked: () {
+                                  _prepareEditCard();
+                                },
+                                iconData: Icons.edit,
+                              ),
+                              SmallButton(
+                                text: 'Add to photos',
+                                onClicked: () {
+                                  _saveCardAsImage();
+                                },
+                                iconData: Icons.collections,
+                              ),
+                              SmallButton(
+                                text: 'Display QR Code',
+                                onClicked: () {
+                                  _showQRCode(context);
+                                },
+                                iconData: Icons.qr_code,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-      );
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _showDeleteWarning(context);
+            },
+            child: const Icon(
+              Icons.delete_forever,
+              size: 35,
+            ),
+          ),
+        );
 
   _showQRCode(BuildContext context) {
     showModalBottomSheet(
