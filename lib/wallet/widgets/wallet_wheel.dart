@@ -46,8 +46,11 @@ class WalletWheelState extends State<WalletWheel> {
           clipBehavior: Clip.none,
           controller: _scrollController,
           itemExtent: 200,
-          physics:
-              const FixedExtentScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const FixedExtentScrollPhysics(
+            parent: BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+          ),
           onSelectedItemChanged: (index) => {},
           perspective: 0.001,
           // Get scanned cards and create a list of CardViews to be displayed.
