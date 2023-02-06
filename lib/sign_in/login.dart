@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cardonapp/sign_in/widgets/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,19 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
+  bool _headingVisible = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 100), () {
+      setState(() {
+        _headingVisible = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         key: scaffoldKey,
@@ -33,14 +47,21 @@ class LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25, top: 100),
-                child: Text(
-                  'Welcome to \nCardon.',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
+              AnimatedOpacity(
+                // If the widget is visible, animate to 0.0 (invisible).
+                // If the widget is hidden, animate to 1.0 (fully visible).
+                opacity: _headingVisible ? 1.0 : 0.0,
+                duration: const Duration(seconds: 5),
+                // The green box must be a child of the AnimatedOpacity widget.
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 25, right: 25, top: 100),
+                  child: Text(
+                    'Welcome to \nCardon.',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
