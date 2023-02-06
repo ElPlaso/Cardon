@@ -1,3 +1,4 @@
+import 'package:cardonapp/app/providers/google_sign_in_provider.dart';
 import 'package:cardonapp/app/widgets/home_banner.dart';
 import 'package:cardonapp/app/widgets/tapped_text_button.dart';
 import 'package:cardonapp/home/widgets/carousel.dart';
@@ -138,22 +139,73 @@ class HomeState extends State<Home> {
             ],
           ),
           floatingActionButton: FloatingActionButton(
+            highlightElevation: 0,
+            elevation: 0,
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Scan()),
             ),
-            child: const Icon(Icons.crop_free_outlined, size: 35),
+            child: const Icon(
+              Icons.crop_free_outlined,
+              size: 35,
+              color: Colors.white,
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: const BottomAppBar(
+          bottomNavigationBar: BottomAppBar(
             color: Colors.blue,
-            shape: CircularNotchedRectangle(),
+            shape: const CircularNotchedRectangle(),
             notchMargin: 5,
             child: SizedBox(
               height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  Transform.scale(
+                    alignment: Alignment.center,
+                    scaleX: -1,
+                    child: IconButton(
+                      splashColor: Colors.transparent,
+                      onPressed: () {
+                        _showSignOutDialog(context);
+                      },
+                      icon: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       );
+
+  Future<void> _showSignOutDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Sign out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.signOut();
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
 }

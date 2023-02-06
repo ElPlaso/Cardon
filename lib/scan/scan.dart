@@ -78,21 +78,23 @@ class _ScanState extends State<Scan> {
                   }
                 } catch (_) {
                   // Alert user that something went wrong when scanning.
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Error'),
-                      content: const Text(
-                        "Couldn't scan. \nIs this a valid QR Code?",
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Okay'),
+                  if (mounted) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Error'),
+                        content: const Text(
+                          "Couldn't scan. \nIs this a valid QR Code?",
                         ),
-                      ],
-                    ),
-                  );
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Okay'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }
               },
             ),
