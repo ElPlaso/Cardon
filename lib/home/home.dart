@@ -1,4 +1,5 @@
 import 'package:cardonapp/app/widgets/home_banner.dart';
+import 'package:cardonapp/app/widgets/tapped_text_button.dart';
 import 'package:cardonapp/home/widgets/carousel.dart';
 import 'package:cardonapp/main.dart';
 import 'package:cardonapp/scan/scan.dart';
@@ -55,7 +56,7 @@ class HomeState extends State<Home> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             MyApp.title,
@@ -65,19 +66,16 @@ class HomeState extends State<Home> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          IconButton(
-                            onPressed: () => Navigator.push(
+                          TappedTextButton(
+                            text: '',
+                            onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const AddCard(),
                               ),
                             ),
-                            icon: Icon(
-                              Icons.library_add,
-                              size: 30,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          )
+                            iconData: Icons.library_add,
+                          ),
                         ],
                       ),
                     ),
