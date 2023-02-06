@@ -61,6 +61,7 @@ class CardProvider with ChangeNotifier {
   void clear(bool personal) {
     List<BusinessCard> list = personal ? _personalcards : _collectedcards;
     list.clear();
+    // Uncommented as it throws an error when hot reloading.
     // notifyListeners();
   }
 

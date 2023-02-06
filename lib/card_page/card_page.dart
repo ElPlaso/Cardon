@@ -185,6 +185,9 @@ class _CardPageState extends State<CardPage> {
         .then(
           (_) => context.read<QueryProvider>().updateWallet(context),
         )
+        // This refreshes the card and count when there are no more cards in the wallet.
+        // TODO: investigate why.
+        .then((_) => context.read<QueryProvider>().updatePersonalcards(context))
         .then(
           (_) => Navigator.pop(context),
         );
