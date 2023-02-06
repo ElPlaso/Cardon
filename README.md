@@ -24,16 +24,7 @@ This project aims to:
 <div>
 <img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/login.png' width=25% height=25%>
 <img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/home_empty.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/upload.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/home_pop.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/user_cards.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/card.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/edit.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/scan.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/wallet.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/collected.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/wallet_empty.png' width=25% height=25%>
-<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/sign_out.png' width=25% height=25%>
+<img src='https://github.com/ElPlaso/Cardon/blob/master/screencaps/demo_small.gif' width=25% height=25%>
 </div>
 
 
