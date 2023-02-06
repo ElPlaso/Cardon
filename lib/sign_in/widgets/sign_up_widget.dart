@@ -16,10 +16,10 @@ class SignUpWidget extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 50,
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.blue,
-                  backgroundColor: Colors.white,
+              child: TextButton.icon(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.transparent,
                 ),
                 onPressed: () {
                   final provider =
