@@ -1,3 +1,4 @@
+import 'package:cardonapp/app/widgets/small_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cardonapp/app/providers/google_sign_in_provider.dart';
@@ -12,13 +13,25 @@ class SignUpWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            OutlinedButton(
-              child: const Text('Sign in with Google'),
-              onPressed: () {
-                final provider =
-                    Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.googleLogin();
-              },
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.blue,
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.googleLogin();
+                },
+                icon: const Icon(Icons.login),
+                label: const Text(
+                  'Sign in with Google',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
             )
           ],
         ),
