@@ -33,17 +33,19 @@ class HomeState extends State<Home> {
     context.read<QueryProvider>().updateWallet(context);
   }
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          key: scaffoldKey,
-          body: CustomScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        key: _scaffoldKey,
+        body: SafeArea(
+          child: CustomScrollView(
             physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics(),
             ),
             slivers: [
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 stretch: true,
                 collapsedHeight: 325.0,
@@ -138,48 +140,99 @@ class HomeState extends State<Home> {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            highlightElevation: 0,
-            elevation: 0,
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Scan()),
-            ),
-            child: const Icon(
-              Icons.crop_free_outlined,
-              size: 35,
-              color: Colors.white,
+        ),
+        floatingActionButton: FloatingActionButton(
+          highlightElevation: 0,
+          elevation: 0,
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Scan()),
+          ),
+          child: const Icon(
+            Icons.crop_free_outlined,
+            size: 35,
+            color: Colors.white,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.blue,
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 5,
+          child: SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomAppBar(
-            color: Colors.blue,
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 5,
-            child: SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Spacer(),
-                  Transform.scale(
-                    alignment: Alignment.center,
-                    scaleX: -1,
-                    child: IconButton(
-                      splashColor: Colors.transparent,
-                      onPressed: () {
-                        _showSignOutDialog(context);
-                      },
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
+        ),
+        drawer: Drawer(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: ListView(
+            padding: const EdgeInsets.all(0),
+            children: [
+              SizedBox(
+                height: 100,
+                width: 50,
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: [0.3, 1],
+                      colors: [
+                        Colors.blueAccent,
+                        Colors.lightBlue,
+                      ],
                     ),
                   ),
-                ],
+                  child: Text(
+                    'Cardon.',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              ListTile(
+                leading: Transform.scale(
+                  alignment: Alignment.center,
+                  scaleX: -1,
+                  child: Icon(
+                    Icons.logout,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                title: Text(
+                  'Sign out',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showSignOutDialog(context);
+                },
+              ),
+            ],
           ),
         ),
       );
