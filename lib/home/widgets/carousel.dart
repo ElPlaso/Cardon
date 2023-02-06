@@ -39,7 +39,24 @@ class CarouselState extends State<Carousel> {
                   elevation: 0,
                   color: Colors.transparent,
                   child: Center(
-                    child: CardView(card: card),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: CardView.themes[card.theme]?.background,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: CardView(card: card),
+                      ),
+                    ),
                   ),
                 );
               },
